@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
   <style>
     html, body {
@@ -19,8 +19,8 @@
       margin: 0;
     }
     #map {
-      width: 600px;
-      height: 400px;
+      width: 800px;
+      height: 600px;
     }
   </style>
 
@@ -76,7 +76,7 @@
     layer.bindPopup(popupContent);
   }
 
-  L.geoJSON([bicycleRental], {
+  var assoLayer = L.geoJSON(null, {
 
     style: function (feature) {
       return feature.properties && feature.properties.style;
@@ -94,7 +94,16 @@
         fillOpacity: 0.8
       });
     }
-  }).addTo(map);
+  });
+
+  var url ="../data/ref-france-association-repertoire-national.geojson"
+
+  //Adding data to variable
+  $.getJSON(url, function(data) {
+    assoLayer.addData(data);
+  });
+  //Adding layer to map
+  assoLayer.addTo(map);
 
 
 </script>

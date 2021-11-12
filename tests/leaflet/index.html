@@ -19,7 +19,7 @@
       margin: 0;
     }
     #map {
-      width: 800px;
+      width: 1200px;
       height: 600px;
     }
   </style>
@@ -66,8 +66,14 @@
 
 
   function onEachFeature(feature, layer) {
-    var popupContent = "<p>I started out as a GeoJSON " +
-            feature.geometry.type + ", but now I'm a Leaflet vector!</p>";
+    var popupContent = "<p><b>" + feature.properties.title + "</b></p>"+
+            "<p><b>OBJET:</b> " + feature.properties.object + "</p>"+
+            "<p><b>ADRESSE:</b></p>" +
+            "<p>"+feature.properties. comp_address_asso + "</p>"+
+            "<p>"+ feature.properties.street_name_asso+"</p>"+
+            "<p>"+ feature.properties.com_name_asso+"</p>"+
+            "<p>"+ feature.properties.dep_name+"</p>";
+
 
     if (feature.properties && feature.properties.popupContent) {
       popupContent += feature.properties.popupContent;

@@ -12,7 +12,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-
+  <link rel="stylesheet" href="src/leaflet-search.css" />
+  <script src="src/leaflet-search.js"></script>
+  <script src="src/leaflet-search.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -43,27 +45,7 @@
     zoomOffset: -1
   }).addTo(map);
 
-
-  var bicycleRental = {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            2.3488,
-            48.85341
-          ]
-        },
-        "type": "Feature",
-        "properties": {
-          "popupContent": "This is a B-Cycle Station. Come pick up a bike and pay by the hour. What a deal!"
-        },
-        "id": 51
-      }
-    ]
-  };
-
+   // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
   function onEachFeature(feature, layer) {
     var popupContent = "<p><b>" + feature.properties.title + "</b></p>"+
@@ -110,6 +92,36 @@
   });
   //Adding layer to map
   assoLayer.addTo(map);
+
+  var searchControl = new L.Control.Search({
+    layer: assoLayer,
+    propertyName: 'object',
+    marker: false,
+    moveToLocation: function(latlng, title, map) {
+      map.fitBounds( latlng.layer.getBounds() );
+      var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+      map.setView(latlng, zoom); // access the zoom
+    }
+  });
+
+  searchControl.on('search:locationfound', function(e) {
+
+    //console.log('search:locationfound', );
+
+    //map.removeLayer(this._markerSearch)
+
+    e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+    if(e.layer._popup)
+      e.layer.openPopup();
+
+  }).on('search:collapsed', function(e) {
+
+    featuresLayer.eachLayer(function(layer) {	//restore feature color
+      featuresLayer.resetStyle(layer);
+    });
+  });
+
+  map.addControl( searchControl );
 
 
 </script>

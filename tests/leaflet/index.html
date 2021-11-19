@@ -3,17 +3,15 @@
 <head>
 
   <title>GeoJSON tutorial - Leaflet</title>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!--  <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />-->
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"  crossorigin=""></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <link rel="stylesheet" href="src/leaflet-search.css" />
-  <script src="src/leaflet-search.js"></script>
   <script src="src/leaflet-search.js"></script>
   <style>
     html, body {
@@ -25,8 +23,6 @@
       height: 600px;
     }
   </style>
-
-
 </head>
 <body>
 
@@ -36,22 +32,22 @@
 <script>
   var map = L.map('map').setView([46.85, 2.3518], 5); // lon,lat pour centrer
 
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox/light-v9',
-    tileSize: 512,
-    zoomOffset: -1
-  }).addTo(map);
+  // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+  //   maxZoom: 18,
+  //   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+  //           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  //   id: 'mapbox/light-v9',
+  //   tileSize: 512,
+  //   zoomOffset: -1
+  // }).addTo(map);
 
-   // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
   function onEachFeature(feature, layer) {
     var popupContent = "<p><b>" + feature.properties.title + "</b></p>"+
             "<p><b>OBJET:</b> " + feature.properties.object + "</p>"+
             "<p><b>ADRESSE:</b></p>" +
-            "<p>"+feature.properties. comp_address_asso + "</p>"+
+            "<p>"+ feature.properties. comp_address_asso + "</p>"+
             "<p>"+ feature.properties.street_name_asso+"</p>"+
             "<p>"+ feature.properties.com_name_asso+"</p>"+
             "<p>"+ feature.properties.dep_name+"</p>";
@@ -93,40 +89,21 @@
   //Adding layer to map
   assoLayer.addTo(map);
 
-  var searchControl = new L.Control.Search({
-    layer: assoLayer,
-    propertyName: 'object',
-    marker: false,
-    moveToLocation: function(latlng, title, map) {
-      map.fitBounds( latlng.layer.getBounds() );
-      var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-      map.setView(latlng, zoom); // access the zoom
-    }
-  });
+  map.addControl( new L.Control.Search({
+    url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+    jsonpParam: 'json_callback',
+    propertyName: 'display_name',
+    propertyLoc: ['lat','lon'],
+    autoCollapse: true,
+    autoType: true,
+    minLength: 2,
+    zoom: 12
+  }) );
 
-  searchControl.on('search:locationfound', function(e) {
-
-    //console.log('search:locationfound', );
-
-    //map.removeLayer(this._markerSearch)
-
-    e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-    if(e.layer._popup)
-      e.layer.openPopup();
-
-  }).on('search:collapsed', function(e) {
-
-    featuresLayer.eachLayer(function(layer) {	//restore feature color
-      featuresLayer.resetStyle(layer);
-    });
-  });
-
-  map.addControl( searchControl );
-
+  var scale = L.control.scale(); // Creating scale control
+  scale.addTo(map); // Adding scale control to the map
 
 </script>
-
-
 
 </body>
 </html>

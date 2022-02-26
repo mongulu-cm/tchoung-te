@@ -1,0 +1,120 @@
+{
+  "rows" : [
+    {
+      "id_objet_social" : "009000",
+      "libelle_objet_social" : "ACTION SOCIOCULTURELLE"
+    },
+    {
+      "id_objet_social" : "001000",
+      "libelle_objet_social" : "ACTIVITÉS POLITIQUES"
+    },
+    {
+      "id_objet_social" : "040000",
+      "libelle_objet_social" : "ACTIVITÉS RELIGIEUSES, SPIRITUELLES OU PHILOSOPHIQUES"
+    },
+    {
+      "id_objet_social" : "030000",
+      "libelle_objet_social" : "AIDE À L'EMPLOI, DÉVELOPPEMENT LOCAL, PROMOTION DE SOLIDARITÉS ÉCONOMIQUES, VIE LOCALE"
+    },
+    {
+      "id_objet_social" : "014000",
+      "libelle_objet_social" : "AMICALES, GROUPEMENTS AFFINITAIRES, GROUPEMENTS D'ENTRAIDE (HORS DÉFENSE DE DROITS FONDAMENTAUX)"
+    },
+    {
+      "id_objet_social" : "038000",
+      "libelle_objet_social" : "ARMÉE (DONT  PRÉPARATION MILITAIRE, MÉDAILLES), ANCIENS COMBATTANTS"
+    },
+    {
+      "id_objet_social" : "020000",
+      "libelle_objet_social" : "ASSOCIATIONS CARITATIVES, HUMANITAIRES, AIDE AU DÉVELOPPEMENT, DÉVELOPPEMENT DU BÉNÉVOLAT"
+    },
+    {
+      "id_objet_social" : "013000",
+      "libelle_objet_social" : "CHASSE PÊCHE"
+    },
+    {
+      "id_objet_social" : "002000",
+      "libelle_objet_social" : "CLUBS, CERCLES DE RÉFLEXION"
+    },
+    {
+      "id_objet_social" : "007000",
+      "libelle_objet_social" : "CLUBS DE LOISIRS, RELATIONS"
+    },
+    {
+      "id_objet_social" : "022000",
+      "libelle_objet_social" : "CONDUITE D'ACTIVITÉS ÉCONOMIQUES"
+    },
+    {
+      "id_objet_social" : "006000",
+      "libelle_objet_social" : "CULTURE, PRATIQUES D'ACTIVITÉS ARTISTIQUES, PRATIQUES CULTURELLES"
+    },
+    {
+      "id_objet_social" : "003000",
+      "libelle_objet_social" : "DÉFENSE DE DROITS FONDAMENTAUX, ACTIVITÉS CIVIQUES"
+    },
+    {
+      "id_objet_social" : "050000",
+      "libelle_objet_social" : "DOMAINES DIVERS, DOMAINES DE NOMENCLATURE SITADELE À RECLASSER"
+    },
+    {
+      "id_objet_social" : "015000",
+      "libelle_objet_social" : "ÉDUCATION  FORMATION"
+    },
+    {
+      "id_objet_social" : "024000",
+      "libelle_objet_social" : "ENVIRONNEMENT,  CADRE DE VIE"
+    },
+    {
+      "id_objet_social" : "005000",
+      "libelle_objet_social" : "INFORMATION COMMUNICATION"
+    },
+    {
+      "id_objet_social" : "019000",
+      "libelle_objet_social" : "INTERVENTIONS SOCIALES"
+    },
+    {
+      "id_objet_social" : "004000",
+      "libelle_objet_social" : "JUSTICE"
+    },
+    {
+      "id_objet_social" : "032000",
+      "libelle_objet_social" : "LOGEMENT"
+    },
+    {
+      "id_objet_social" : "010000",
+      "libelle_objet_social" : "PRÉSERVATION DU PATRIMOINE"
+    },
+    {
+      "id_objet_social" : "016000",
+      "libelle_objet_social" : "RECHERCHE"
+    },
+    {
+      "id_objet_social" : "023000",
+      "libelle_objet_social" : "REPRÉSENTATION, PROMOTION ET DÉFENSE D'INTÉRÊTS ÉCONOMIQUES"
+    },
+    {
+      "id_objet_social" : "017000",
+      "libelle_objet_social" : "SANTÉ"
+    },
+    {
+      "id_objet_social" : "036000",
+      "libelle_objet_social" : "SÉCURITÉ, PROTECTION CIVILE"
+    },
+    {
+      "id_objet_social" : "018000",
+      "libelle_objet_social" : "SERVICES ET ÉTABLISSEMENTS MÉDICO-SOCIAUX"
+    },
+    {
+      "id_objet_social" : "021000",
+      "libelle_objet_social" : "SERVICES FAMILIAUX, SERVICES AUX PERSONNES ÂGÉES"
+    },
+    {
+      "id_objet_social" : "011000",
+      "libelle_objet_social" : "SPORTS, ACTIVITÉS DE PLEIN AIR"
+    },
+    {
+      "id_objet_social" : "034000",
+      "libelle_objet_social" : "TOURISME"
+    }
+  ]
+}

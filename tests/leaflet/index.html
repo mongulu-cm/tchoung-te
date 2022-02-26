@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 
-  <title>GeoJSON tutorial - Leaflet</title>
+  <title>Acu-te - Cartographie des associations camerounaises en France</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,6 +13,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <link rel="stylesheet" href="src/leaflet-search.css" />
   <script src="src/leaflet-search.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+  <link rel="stylesheet" href="src/tag-filter-button/leaflet-tag-filter-button.css" />
+  <script src="src/tag-filter-button/leaflet-tag-filter-button.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -22,6 +26,9 @@
       width: 1200px;
       height: 600px;
     }
+    .leaflet-bar .tag-filter-tags-container ul {
+       width: 650px;
+    }
   </style>
 </head>
 <body>
@@ -30,7 +37,7 @@
 
 
 <script>
-  var map = L.map('map').setView([46.85, 2.3518], 5); // lon,lat pour centrer
+  var map = L.map('map').setView([46.85, 2.3518], 5); // lon,lat pour centrer ( ici sur la france)
 
   // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
   //   maxZoom: 18,
@@ -45,6 +52,7 @@
 
   function onEachFeature(feature, layer) {
     var popupContent = "<p><b>" + feature.properties.title + "</b></p>"+
+            "<b>CATEGORIE:</b> " + feature.properties.social_object1_libelle.toLowerCase() +
             "<p><b>OBJET:</b> " + feature.properties.object + "</p>"+
             "<p><b>ADRESSE:</b></p>" +
             "<p>"+ feature.properties. comp_address_asso + "</p>"+
@@ -75,19 +83,34 @@
         color: "#000",
         weight: 1,
         opacity: 1,
-        fillOpacity: 0.8
+        fillOpacity: 0.8,
+        tags: [feature.properties.social_object1_libelle]
       });
     }
   });
 
-  var url ="../data/ref-france-association-repertoire-national-derefrence.geojson"
 
+  const url = "../data/ref-rnal-derefrence.geojson";
   //Adding data to variable
   $.getJSON(url, function(data) {
     assoLayer.addData(data);
   });
   //Adding layer to map
   assoLayer.addTo(map);
+
+  const libelles = [];
+  $.ajax({
+      url: "../data/nomenclature-waldec-rna-parent.json",
+      async: false,
+      dataType: 'json',
+      success: function (data) {
+        for (let i in data.rows) {
+          var a = data.rows[i].libelle_objet_social
+          libelles.push(a)
+        }
+      }
+  });
+
 
   map.addControl( new L.Control.Search({
     url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
@@ -99,6 +122,14 @@
     minLength: 2,
     zoom: 12
   }) );
+
+  map.addControl(new L.Control.TagFilterButton({
+        data: libelles,
+        icon: '<img src="src/tag-filter-button/filter.png">',
+        filterOnEveryClick: true
+
+    })) ;
+
 
   var scale = L.control.scale(); // Creating scale control
   scale.addTo(map); // Adding scale control to the map

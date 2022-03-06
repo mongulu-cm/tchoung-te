@@ -11,12 +11,19 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"  crossorigin=""></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
   <link rel="stylesheet" href="src/leaflet-search.css" />
   <script src="src/leaflet-search.js"></script>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
   <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
   <link rel="stylesheet" href="src/tag-filter-button/leaflet-tag-filter-button.css" />
   <script src="src/tag-filter-button/leaflet-tag-filter-button.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css" integrity="sha512-ENrTWqddXrLJsQS2A86QmvA17PkJ0GVm1bqj5aTgpeMAfDKN2+SIOLpKG8R/6KkimnhTb+VW5qqUHB/r1zaRgg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.min.css" integrity="sha512-fYyZwU1wU0QWB4Yutd/Pvhy5J1oWAwFXun1pt+Bps04WSe4Aq6tyHlT4+MHSJhD8JlLfgLuC4CbCnX5KHSjyCg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster-src.js" integrity="sha512-+v1wwh3/ssdlBHT9KaotlPNisom2W6Ryj4g2/HfkKu6OLp62Lbf6VgRdEm2+OYOQVnR0WoxVgWZq5JmPBAj+HQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
   <style>
     html, body {
       height: 100%;
@@ -37,25 +44,13 @@
 
 
 <script>
-  var map = L.map('map').setView([46.85, 2.3518], 5); // lon,lat pour centrer ( ici sur la france)
 
-  // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-  //   maxZoom: 18,
-  //   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-  //           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  //   id: 'mapbox/light-v9',
-  //   tileSize: 512,
-  //   zoomOffset: -1
-  // }).addTo(map);
-
-   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-  function onEachFeature(feature, layer) {
+   function onEachFeature(feature, layer) {
     var popupContent = "<p><b>" + feature.properties.title + "</b></p>"+
             "<b>CATEGORIE:</b> " + feature.properties.social_object1_libelle.toLowerCase() +
             "<p><b>OBJET:</b> " + feature.properties.object + "</p>"+
             "<p><b>ADRESSE:</b></p>" +
-            "<p>"+ feature.properties. comp_address_asso + "</p>"+
+            "<p>"+ feature.properties.comp_address_asso + "</p>"+
             "<p>"+ feature.properties.street_name_asso+"</p>"+
             "<p>"+ feature.properties.com_name_asso+"</p>"+
             "<p>"+ feature.properties.dep_name+"</p>";
@@ -68,13 +63,34 @@
     layer.bindPopup(popupContent);
   }
 
-  var assoLayer = L.geoJSON(null, {
+   var map = L.map('map').setView([46.85, 2.3518], 5); // lon,lat pour centrer ( ici sur la france)
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+   var markers = L.markerClusterGroup();
+
+  // const url = "../data/ref-rnal-derefrence.geojson";
+  // //Adding data to variable
+  // $.getJSON(url, function(data) {
+  //   assoLayer.addData(data);
+  // });
+
+
+  var assos = [];
+  $.ajax({
+      url: "../data/ref-rnal-derefrence.geojson",
+      async: false,
+      dataType: 'json',
+      success: function (data) {
+        assos = data ;
+      }
+  });
+
+  var assoLayer = L.geoJSON(assos, {
 
     style: function (feature) {
       return feature.properties && feature.properties.style;
     },
 
-    onEachFeature: onEachFeature,
+   onEachFeature: onEachFeature,
 
     pointToLayer: function (feature, latlng) {
       return L.circleMarker(latlng, {
@@ -89,14 +105,13 @@
     }
   });
 
+  markers.addLayer(assoLayer);
+  map.addLayer(markers);
+  //map.fitBounds(markers.getBounds());
 
-  const url = "../data/ref-rnal-derefrence.geojson";
-  //Adding data to variable
-  $.getJSON(url, function(data) {
-    assoLayer.addData(data);
-  });
+
   //Adding layer to map
-  assoLayer.addTo(map);
+  //assoLayer.addTo(map);
 
   const libelles = [];
   $.ajax({

@@ -27,7 +27,7 @@ Si vous êtes ici, c'est que vous intéressez par un déploiement maison de la s
 Sur AWS:  
   ```
     pushd infra ; terraform apply && popd
-    pushd html ; aws s3 cp html/ s3://tchoung-te.mongulu.cm --recursive
+    pushd html ; aws s3 cp html/index.html s3://tchoung-te.mongulu.cm/index.html
   ```
 
 Puis éxécutez le notebook `filter-cameroon.ipynb` après voir installé les dépendances nécessaires:

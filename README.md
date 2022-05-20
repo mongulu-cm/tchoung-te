@@ -1,4 +1,7 @@
 # A Tchoung té
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 > Langue [Yemba](https://fr.wikipedia.org/wiki/Yemba) siginifiant association/groupe en français
 
 L'objectif du projet est de de fédérer les métadonnées de toutes les associations camerounaises de France afin de les rendre plus accessible à la communauté.
@@ -39,3 +42,22 @@ Puis éxécutez le notebook `filter-cameroon.ipynb` après voir installé les d�
 Enfin utilisez le fichier csv résultat comme source de donnée dans Gogocarto et personnalisez là.
 Vous pouvez par exemple définir des icônes par catégorie(objet social) ; les notres étant dans `html/icons`.
 > Celles-ci ont été construite à partir de ces icônes de bases https://thenounproject.com/behanzin777/kit/favorites/
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/fabiolatagne97"><img src="https://avatars.githubusercontent.com/u/60782218?v=4?s=100" width="100px;" alt=""/><br /><sub><b>fabiolatagne97</b></sub></a><br /><a href="#tutorial-fabiolatagne97" title="Tutorials">✅</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

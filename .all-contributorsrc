@@ -6,6 +6,66 @@
   "commit": false,
   "contributors": [
     {
+
+      "login": "gttakam",
+      "name": "Ghislain TAKAM",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62386113?v=4",
+      "profile": "https://github.com/gttakam",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+	{
+
+      "login": "pdjiela",
+      "name": "pdjiela",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36527810?v=4",
+      "profile": "https://github.com/pdjiela",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+    {
+
+      "login": "DimitriTchapmi",
+      "name": "DimitriTchapmi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15048420?v=4",
+      "profile": "https://github.com/DimitriTchapmi",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+	{
+
+      "login": "GNOKAM",
+      "name": "GNOKAM",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60141878?v=4",
+      "profile": "https://github.com/GNOKAM",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+	{
+      "login": "fabiolatagne97",
+      "name": "fabiolatagne97",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60782218?v=4",
+      "profile": "https://github.com/fabiolatagne97",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+	{
+      "login": "hsiebenou",
+      "name": "hsiebenou",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45689273?v=4",
+      "profile": "https://github.com/hsiebenou",
+      "contributions": [
+        "data",
+        "test",
+        "tutorial"
+      ]
+    },
+	{
       "login": "flominT",
       "name": "Flomin TCHAWE",
       "avatar_url": "https://avatars.githubusercontent.com/u/33840477?v=4",
@@ -15,6 +75,7 @@
         "tutorial"
       ]
     }
+	
   ],
   "contributorsPerLine": 7,
   "projectName": "tchoung-te",
@@ -23,3 +84,5 @@
   "repoHost": "https://github.com",
   "skipCi": true
 }
+
+

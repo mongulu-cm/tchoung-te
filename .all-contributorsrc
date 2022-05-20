@@ -6,6 +6,27 @@
   "commit": false,
   "contributors": [
     {
+
+      "login": "gttakam",
+      "name": "Ghislain TAKAM",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62386113?v=4",
+      "profile": "https://github.com/gttakam",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+	{
+
+      "login": "pdjiela",
+      "name": "pdjiela",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36527810?v=4",
+      "profile": "https://github.com/pdjiela",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+    {
+
       "login": "DimitriTchapmi",
       "name": "DimitriTchapmi",
       "avatar_url": "https://avatars.githubusercontent.com/u/15048420?v=4",
@@ -13,7 +34,18 @@
       "contributions": [
         "tutorial"
       ]
+    },
+	{
+
+      "login": "GNOKAM",
+      "name": "GNOKAM",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60141878?v=4",
+      "profile": "https://github.com/GNOKAM",
+      "contributions": [
+        "tutorial"
+      ]
     }
+	
   ],
   "contributorsPerLine": 7,
   "projectName": "tchoung-te",
@@ -22,3 +54,6 @@
   "repoHost": "https://github.com",
   "skipCi": true
 }
+
+
+     

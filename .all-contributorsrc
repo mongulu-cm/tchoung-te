@@ -74,6 +74,19 @@
         "code",
         "tutorial"
       ]
+    },
+	{
+      "login": "billmetangmo",
+      "name": "Bill Metangmo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25366207?v=4",
+      "profile": "https://github.com/billmetangmo",
+      "contributions": [
+        "code",
+        "data",
+        "ideas",
+        "test",
+        "tutorial"
+      ]
     }
 	
   ],

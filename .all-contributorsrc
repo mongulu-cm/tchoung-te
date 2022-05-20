@@ -15,7 +15,7 @@
         "tutorial"
       ]
     },
-	  {
+	{
 
       "login": "pdjiela",
       "name": "pdjiela",
@@ -24,8 +24,18 @@
       "contributions": [
         "tutorial"
       ]
-     },
-     {
+    },
+    {
+
+      "login": "DimitriTchapmi",
+      "name": "DimitriTchapmi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15048420?v=4",
+      "profile": "https://github.com/DimitriTchapmi",
+      "contributions": [
+        "tutorial"
+      ]
+    },
+	{
 
       "login": "GNOKAM",
       "name": "GNOKAM",
@@ -34,7 +44,8 @@
       "contributions": [
         "tutorial"
       ]
-     }
+    }
+	
   ],
   "contributorsPerLine": 7,
   "projectName": "tchoung-te",
@@ -43,3 +54,6 @@
   "repoHost": "https://github.com",
   "skipCi": true
 }
+
+
+     

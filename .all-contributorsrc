@@ -44,6 +44,15 @@
       "contributions": [
         "tutorial"
       ]
+    },
+	{
+      "login": "fabiolatagne97",
+      "name": "fabiolatagne97",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60782218?v=4",
+      "profile": "https://github.com/fabiolatagne97",
+      "contributions": [
+        "tutorial"
+      ]
     }
 	
   ],
@@ -54,6 +63,3 @@
   "repoHost": "https://github.com",
   "skipCi": true
 }
-
-
-     

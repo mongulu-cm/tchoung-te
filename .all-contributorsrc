@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "flominT",
+      "name": "Flomin TCHAWE",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33840477?v=4",
+      "profile": "http://flomint.github.io",
+      "contributions": [
+        "code",
+        "tutorial"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "tchoung-te",
+  "projectOwner": "mongulu-cm",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

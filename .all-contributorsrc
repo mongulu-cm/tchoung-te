@@ -53,6 +53,17 @@
       "contributions": [
         "tutorial"
       ]
+    },
+	{
+      "login": "hsiebenou",
+      "name": "hsiebenou",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45689273?v=4",
+      "profile": "https://github.com/hsiebenou",
+      "contributions": [
+        "data",
+        "test",
+        "tutorial"
+      ]
     }
 	
   ],

@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "pdjiela",
+      "name": "pdjiela",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36527810?v=4",
+      "profile": "https://github.com/pdjiela",
+      "contributions": [
+        "tutorial"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "tchoung-te",
+  "projectOwner": "mongulu-cm",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

@@ -64,6 +64,16 @@
         "test",
         "tutorial"
       ]
+    },
+	{
+      "login": "flominT",
+      "name": "Flomin TCHAWE",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33840477?v=4",
+      "profile": "http://flomint.github.io",
+      "contributions": [
+        "code",
+        "tutorial"
+      ]
     }
 	
   ],
@@ -74,3 +84,5 @@
   "repoHost": "https://github.com",
   "skipCi": true
 }
+
+

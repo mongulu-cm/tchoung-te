@@ -1,0 +1,28 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "billmetangmo",
+      "name": "Bill Metangmo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25366207?v=4",
+      "profile": "https://github.com/billmetangmo",
+      "contributions": [
+        "code",
+        "data",
+        "ideas",
+        "test",
+        "tutorial"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "tchoung-te",
+  "projectOwner": "mongulu-cm",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

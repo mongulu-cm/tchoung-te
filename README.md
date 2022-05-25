@@ -20,9 +20,11 @@ Si vous êtes ici, c'est que vous intéressez par un déploiement maison de la s
 ### Prérequis
 
 * Avoir un minimum de compétence sur le cloud AWS et Terraform
-* terraform, awscli,[pyspark](https://towardsdatascience.com/how-to-use-pyspark-on-your-computer-9c7180075617)
 * Avoir les accès admin sur une carte [Gogocarto](https://gogocarto.fr/projects)
 * Parcourir les [tutoriels Gogocarto](https://peertube.openstreetmap.fr/c/gogo_tutos/videos)
+* Installez localement tous les outils ( scripts `init` et `command` du fichier [.gitpod.yml](.gitpod.yml) **ou** utilisez un environnement de développement déjà prêt à l'emploi sur gitpod :
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mongulu-cm/tchoung-te)
 
 
 ### Déploiement
@@ -35,8 +37,10 @@ Sur AWS:
 
 Puis éxécutez le notebook `filter-cameroon.ipynb` après voir installé les dépendances nécessaires:
   ```
-    cd etl && pipenv sync
-    jupyter lab
+    cd etl && pipenv pipenv install -r requirements.txt && pipenv install -r requirements-dev.txt --dev
+    pipenv shell
+    python3 -m ipykernel install --user --name=etl
+    jupyter notebook
   ```
 
 Enfin utilisez le fichier csv résultat comme source de donnée dans Gogocarto et personnalisez là.

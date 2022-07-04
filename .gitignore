@@ -163,6 +163,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-etl/rna.*/
+etl/rna_waldec_*/**
 etl/enrich_cache.sqlite
 etl/.env

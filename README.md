@@ -29,11 +29,10 @@ Si vous êtes ici, c'est que vous intéressez par un déploiement maison de la s
 
 ### Déploiement
 
-* Créez un fichier `.env` à la racine contenant:
+Créez un fichier `.env` contenant la clé BING_SUBSCRIPTION_KEY :
   ```
-    cd etl/
-    touch .env
-    echo 'BING_SUBSCRIPTION_KEY=XXXXXXXXXXXXXXXXXX' >> .env
+    cd etl && pipenv pipenv install -r requirements.txt && pipenv install -r requirements-dev.txt --dev
+    dotenv set BING_SUBSCRIPTION_KEY XXXXXXXXXXXXXXXXXXXXXXXXXXXX
   ```
   
 Ensuite, éxécutez les commandes suivantes pour uploader le site web:  
@@ -44,7 +43,6 @@ Ensuite, éxécutez les commandes suivantes pour uploader le site web:
 
 Puis éxécutez les notebooks `filter-cameroon.ipynb` et `enrich-database.ipynb` :
   ```
-    cd etl && pipenv pipenv install -r requirements.txt && pipenv install -r requirements-dev.txt --dev
     pipenv shell
     python3 -m ipykernel install --user --name=etl
     jupyter trust filter-cameroon.ipynb && jupyter trust enrich-database.ipynb

@@ -20,14 +20,16 @@ tasks:
       pip install -r requirements.txt && pip install -r requirements-dev.txt
       popd
     command: |
-      #python3 -m ipykernel install --user
-      #aws configure
-      #pushd infra ; terraform init && popd
+      aws configure
       cd etl/
+      touch .env
+      echo 'BING_SUBSCRIPTION_KEY=CHANGE_ME' >> .env
+      aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
       curl "https://media.interieur.gouv.fr/rna/rna_waldec_20220301.zip" -o rna_waldec_20220301.zip
       unzip rna_waldec_20220301.zip -d rna_waldec_20220301
       rm -f rna_waldec_20220301.zip
-      jupyter notebook --NotebookApp.allow_origin=\'$(gp url 8888)\'
+      jupyter trust filter-cameroon.ipynb && jupyter trust enrich-database.ipynb
+      jupyter lab --ServerApp.allow_origin=\'$(gp url 8888)\'
 
 ports:
 - port: 8888

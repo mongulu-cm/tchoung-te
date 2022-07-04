@@ -29,23 +29,32 @@ Si vous êtes ici, c'est que vous intéressez par un déploiement maison de la s
 
 ### Déploiement
 
-Sur AWS:  
+* Créez un fichier `.env` à la racine contenant:
+  ```
+    cd etl/
+    touch .env
+    echo 'BING_SUBSCRIPTION_KEY=XXXXXXXXXXXXXXXXXX' >> .env
+  ```
+  
+Ensuite, éxécutez les commandes suivantes pour uploader le site web:  
   ```
     pushd infra ; terraform apply && popd
     pushd html ; aws s3 cp html/index.html s3://tchoung-te.mongulu.cm/index.html
   ```
 
-Puis éxécutez le notebook `filter-cameroon.ipynb` après voir installé les dépendances nécessaires:
+Puis éxécutez les notebooks `filter-cameroon.ipynb` et `enrich-database.ipynb` :
   ```
     cd etl && pipenv pipenv install -r requirements.txt && pipenv install -r requirements-dev.txt --dev
     pipenv shell
     python3 -m ipykernel install --user --name=etl
-    jupyter notebook
+    jupyter trust filter-cameroon.ipynb && jupyter trust enrich-database.ipynb
+    aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
+    jupyter lab
   ```
 
 Enfin utilisez le fichier csv résultat comme source de donnée dans Gogocarto et personnalisez là.
 Vous pouvez par exemple définir des icônes par catégorie(objet social) ; les notres étant dans `html/icons`.
-> Celles-ci ont été construite à partir de ces icônes de bases https://thenounproject.com/behanzin777/kit/favorites/
+> Celles-ci ont été construites à partir de ces icônes de bases https://thenounproject.com/behanzin777/kit/favorites/
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

@@ -17,11 +17,13 @@ tasks:
       popd
       
       pushd etl/
+      pip install pre-commit && pip install detect-secrets
       pip install -r requirements.txt && pip install -r requirements-dev.txt
       popd
     command: |
       aws configure
       cd etl/
+      pre-commit install
       touch .env
       aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
       curl "https://media.interieur.gouv.fr/rna/rna_waldec_20220301.zip" -o rna_waldec_20220301.zip

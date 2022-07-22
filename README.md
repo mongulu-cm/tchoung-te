@@ -2,46 +2,44 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-> Langue [Yemba](https://fr.wikipedia.org/wiki/Yemba) siginifiant association/groupe en français
+> [Yemba](https://fr.wikipedia.org/wiki/Yemba) language meaning association/group in French
 
-L'objectif du projet est de de fédérer les métadonnées de toutes les associations camerounaises de France afin de les rendre plus accessible à la communauté.
- 
+The objective of the project is to federate the metadata of all Cameroonian associations in France to make them more accessible to the community. 
 
-## Contexte fonctionnel
+## Functional Context 
 
-[Vidéo de présentation](https://peertube.stream/w/qmMMLyMbzAU8HWWAk1LAQJ)
-
-
-## Contexte technique
-
-Si vous êtes ici, c'est que vous intéressez par un déploiement maison de la solution. Suivez le guide :) !
+[Presentation video (in French)](https://peertube.stream/w/qmMMLyMbzAU8HWWAk1LAQJ)
 
 
-### Prérequis
+## Technical context
 
-* Avoir un minimum de compétence sur le cloud AWS et Terraform
-* Avoir les accès admin sur une carte [Gogocarto](https://gogocarto.fr/projects)
-* Parcourir les [tutoriels Gogocarto](https://peertube.openstreetmap.fr/c/gogo_tutos/videos)
-* Installez localement tous les outils ( scripts `init` et `command` du fichier [.gitpod.yml](.gitpod.yml) **ou** utilisez un environnement de développement déjà prêt à l'emploi sur gitpod :
+If you are here, it means that you are interested in an in-house deployment of the solution. Follow the guide :) !
+
+### Prerequisites
+
+* Have a minimum of competence on the AWS and Terraform cloud
+* Have admin access on a [Gogocarto](https://gogocarto.fr/projects)
+* Go through the [Gogocarto tutorials](https://peertube.openstreetmap.fr/c/gogo_tutos/videos)
+* Locally install all tools ( `init` and `command` scripts from the [.gitpod.yml](.gitpod.yml) file **or** use a ready-made development environment on gitpod :
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mongulu-cm/tchoung-te)
 
 
-### Déploiement
+### Deployment
 
-Créez un fichier `.env` contenant la clé BING_SUBSCRIPTION_KEY :
+Create a `.env` file containing the key BING_SUBSCRIPTION_KEY :
   ```
     cd etl && pipenv pipenv install -r requirements.txt && pipenv install -r requirements-dev.txt --dev
     dotenv set BING_SUBSCRIPTION_KEY XXXXXXXXXXXXXXXXXXXXXXXXXXXX
   ```
   
-Ensuite, éxécutez les commandes suivantes pour uploader le site web:  
+Then run the following commands to upload the website: 
   ```
     pushd infra ; terraform apply && popd
     pushd html ; aws s3 cp html/index.html s3://tchoung-te.mongulu.cm/index.html
   ```
 
-Puis éxécutez les notebooks `filter-cameroon.ipynb` et `enrich-database.ipynb` :
+And execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
   ```
     pipenv shell
     python3 -m ipykernel install --user --name=etl
@@ -50,9 +48,10 @@ Puis éxécutez les notebooks `filter-cameroon.ipynb` et `enrich-database.ipynb`
     jupyter lab
   ```
 
-Enfin utilisez le fichier csv résultat comme source de donnée dans Gogocarto et personnalisez là.
-Vous pouvez par exemple définir des icônes par catégorie(objet social) ; les notres étant dans `html/icons`.
-> Celles-ci ont été construites à partir de ces icônes de bases https://thenounproject.com/behanzin777/kit/favorites/
+Finally use the resulting csv file as a data source in Gogocarto and customize it.
+You can for example define icons by category (social object); ours are in `html/icons`.
+> These have been built from these basic icons https://thenounproject.com/behanzin777/kit/favorites/
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

@@ -1,6 +1,6 @@
 # A Tchoung té
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 > [Yemba](https://fr.wikipedia.org/wiki/Yemba) language meaning association/group in French
 
@@ -72,6 +72,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/billmetangmo"><img src="https://avatars.githubusercontent.com/u/25366207?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Bill Metangmo</b></sub></a><br /><a href="https://github.com/mongulu-cm/tchoung-te/commits?author=billmetangmo" title="Code">💻</a> <a href="#data-billmetangmo" title="Data">🔣</a> <a href="#ideas-billmetangmo" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/mongulu-cm/tchoung-te/commits?author=billmetangmo" title="Tests">⚠️</a> <a href="#tutorial-billmetangmo" title="Tutorials">✅</a></td>
     <td align="center"><a href="https://github.com/dimitrilexi"><img src="https://avatars.githubusercontent.com/u/40074715?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dimitrilexi</b></sub></a><br /><a href="#data-dimitrilexi" title="Data">🔣</a></td>
+    <td align="center"><a href="https://github.com/ngnnpgn"><img src="https://avatars.githubusercontent.com/u/28226134?v=4?s=100" width="100px;" alt=""/><br /><sub><b>ngnnpgn</b></sub></a><br /><a href="#data-ngnnpgn" title="Data">🔣</a></td>
   </tr>
 </table>
 

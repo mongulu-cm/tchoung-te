@@ -166,3 +166,7 @@ terraform.rc
 etl/rna_waldec_*/**
 etl/enrich_cache.sqlite
 etl/.env
+
+node_modules/**
+package-lock.json
+package.json

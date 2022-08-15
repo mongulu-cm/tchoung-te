@@ -165,8 +165,13 @@ override.tf.json
 terraform.rc
 etl/rna_waldec_*/**
 etl/enrich_cache.sqlite
+etl/.virtual_documents/**
+.virtual_documents/**
 etl/.env
 
 node_modules/**
 package-lock.json
 package.json
+
+## To avoid commit of aws creds in gitpod env
+.aws/

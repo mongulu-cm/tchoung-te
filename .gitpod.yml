@@ -16,6 +16,7 @@ tasks:
       popd
     command: |
       bash .envrc.gitpod
+      cp .envrc.gitpod .envrc
       jupyter lab --ServerApp.allow_origin=\'$(gp url 8888)\'
 
 ports:

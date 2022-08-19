@@ -7,6 +7,7 @@ tasks:
 
       pushd etl/
       pre-commit install
+      pre-commit install --hook-type commit-msg
       touch .env
       aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
       curl "https://media.interieur.gouv.fr/rna/rna_waldec_20220301.zip" -o rna_waldec_20220301.zip

@@ -11,6 +11,7 @@ The objective of the project is to federate the metadata of all Cameroonian asso
 
 [Presentation video (in French)](https://peertube.stream/w/qmMMLyMbzAU8HWWAk1LAQJ)
 
+If you want to do data analysis, the raw latest database of cameroonian association is accessible [here](https://lite.datasette.io/?csv=https://raw.githubusercontent.com/mongulu-cm/tchoung-te/main/etl/ref-rna-real-mars-2022-enriched-qualified.csv#/data/ref-rna-real-mars-2022-enriched-qualified). 
 
 ## Technical context
 

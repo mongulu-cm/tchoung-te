@@ -163,6 +163,10 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# terraform lock
+infra/.terraform.lock.hcl
+
 etl/rna_waldec_*/**
 etl/enrich_cache.sqlite
 etl/.virtual_documents/**

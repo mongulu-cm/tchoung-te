@@ -1,8 +1,8 @@
 locals {
-  domain_name= "tchoung-te.mongulu.cm"
+  domain_name = "tchoung-te.mongulu.cm"
 }
 
-resource "aws_cloudfront_distribution" "cf"  {
+resource "aws_cloudfront_distribution" "cf" {
   aliases = [local.domain_name]
   comment = "Managed by Terraform"
 

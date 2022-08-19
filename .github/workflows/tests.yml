@@ -1,5 +1,10 @@
 name: Test Workflow
-on: [pull_request, push, workflow_dispatch]
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'gogocarto/**'
+  pull_request:
 
 jobs:
 

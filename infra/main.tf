@@ -16,7 +16,7 @@ resource "aws_cloudfront_distribution" "cf" {
     min_ttl                = "0"
     smooth_streaming       = "false"
     target_origin_id       = "mongulu-prod-tchoun-te"
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "redirect-to-https"
   }
 
   enabled         = "true"
@@ -31,7 +31,7 @@ resource "aws_cloudfront_distribution" "cf" {
       http_port                = "80"
       https_port               = "443"
       origin_keepalive_timeout = "5"
-      origin_protocol_policy   = "match-viewer"
+      origin_protocol_policy   = "https-only"
       origin_read_timeout      = "30"
       origin_ssl_protocols     = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }

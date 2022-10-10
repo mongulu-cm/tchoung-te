@@ -13,6 +13,9 @@ The objective of the project is to federate the metadata of all Cameroonian asso
 
 If you want to do data analysis, the raw latest database of cameroonian association is accessible [here](https://lite.datasette.io/?csv=https://raw.githubusercontent.com/mongulu-cm/tchoung-te/main/etl/ref-rna-real-mars-2022-enriched-qualified.csv#/data/ref-rna-real-mars-2022-enriched-qualified). 
 
+We also maintained a public dashboard to visualize associations [here
+](https://metabase.mongulu.cm/public/dashboard/30534b6c-9a55-441a-8b86-168a2147869a#theme=night)
+
 ## Technical context
 
 If you are here, it means that you are interested in an in-house deployment of the solution. Follow the guide :) !

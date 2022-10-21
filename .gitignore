@@ -172,6 +172,7 @@ etl/enrich_cache.sqlite
 etl/.virtual_documents/**
 .virtual_documents/**
 etl/.env
+libpostal/
 
 node_modules/**
 package-lock.json

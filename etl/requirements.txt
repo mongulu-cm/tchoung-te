@@ -9,7 +9,6 @@ jupyter-utils==1.2.6
 pandarallel==1.6.1
 pipdeptree==2.2.1
 pyarrow==8.0.0
-pyspark==3.2.2
 requests-cache==0.9.4
 tqdm==4.64.0
 wheel==0.37.1
@@ -17,3 +16,4 @@ abbreviations==0.2.5
 ftfy==6.1.1
 rich==12.4.4
 python-dotenv==0.20.0
+postal==1.1.10

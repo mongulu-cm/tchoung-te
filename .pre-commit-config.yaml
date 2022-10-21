@@ -1,4 +1,4 @@
-exclude: "(etl/.*ipynb|README.md|gogocarto/.*)"
+exclude: "(etl/.*ipynb|etl/.*csv|README.md|gogocarto/.*)"
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
@@ -6,7 +6,6 @@ repos:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-yaml
-    -   id: check-added-large-files
 -   repo:  https://github.com/gruntwork-io/pre-commit
     rev: v0.1.17
     hooks:

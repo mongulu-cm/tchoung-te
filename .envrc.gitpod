@@ -30,13 +30,14 @@ then
     popd || exit
 fi
 
-if [ ! -d "/opt/spark-3.2.2" ]; then
-    pushd /tmp || exit
-    curl "https://dlcdn.apache.org/spark/spark-3.2.2/spark-3.2.2-bin-hadoop3.2.tgz" -o spark-3.2.2-bin-hadoop3.2.tgz
-    tar -xzf spark-3.2.2-bin-hadoop3.2.tgz
-    sudo mv spark-3.2.2-bin-hadoop3.2 /opt/spark-3.2.2
-    popd || exit
-fi
-
 export AWS_SHARED_CREDENTIALS_FILE=$WORKPLACE/.aws/credentials
 export AWS_CONFIG_FILE=$WORKPLACE/.aws/config
+
+git clone https://github.com/openvenues/libpostal
+cd libpostal || exit
+make distclean
+./bootstrap.sh
+mkdir dist
+./configure --datadir=dist
+sudo make -j4
+sudo make install

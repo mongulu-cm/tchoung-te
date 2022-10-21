@@ -8,7 +8,6 @@ tasks:
       pushd etl/
       pre-commit install
       pre-commit install --hook-type commit-msg
-      touch .env
       aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
       curl "https://media.interieur.gouv.fr/rna/rna_waldec_20220301.zip" -o rna_waldec_20220301.zip
       unzip rna_waldec_20220301.zip -d rna_waldec_20220301
@@ -18,7 +17,8 @@ tasks:
     command: |
       bash .envrc.gitpod
       cp .envrc.gitpod .envrc
-      jupyter lab --ServerApp.allow_origin=\'$(gp url 8888)\'
+      cd etl/
+      secretsfoundry run --script 'jupyter lab --ServerApp.allow_origin=\"$(gp url 8888)\"'
 
 ports:
 - port: 8888

@@ -31,12 +31,6 @@ If you are here, it means that you are interested in an in-house deployment of t
 
 
 ### Deployment
-
-Create a `.env` file containing the key BING_SUBSCRIPTION_KEY :
-  ```
-    cd etl && pipenv pipenv install -r requirements.txt && pipenv install -r requirements-dev.txt --dev
-    dotenv set BING_SUBSCRIPTION_KEY XXXXXXXXXXXXXXXXXXXXXXXXXXXX
-  ```
   
 Then run the following commands to upload the website: 
   ```
@@ -50,7 +44,7 @@ And execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
     python3 -m ipykernel install --user --name=etl
     jupyter trust filter-cameroon.ipynb && jupyter trust enrich-database.ipynb
     aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
-    jupyter lab
+    secretsfoundry run --script 'jupyter lab'
   ```
 
 Finally use the resulting csv file as a data source in Gogocarto and customize it.

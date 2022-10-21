@@ -15,5 +15,3 @@ wheel==0.37.1
 abbreviations==0.2.5
 ftfy==6.1.1
 rich==12.4.4
-python-dotenv==0.20.0
-postal==1.1.10

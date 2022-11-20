@@ -32,13 +32,7 @@ If you are here, it means that you are interested in an in-house deployment of t
 
 ### Deployment
   
-Then run the following commands to upload the website: 
-  ```
-    pushd infra ; terraform apply && popd
-    pushd html ; aws s3 cp html/index.html s3://tchoung-te.mongulu.cm/index.html
-  ```
-
-And execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
+Execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
   ```
     pipenv shell
     python3 -m ipykernel install --user --name=etl
@@ -50,6 +44,15 @@ And execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
 Finally use the resulting csv file as a data source in Gogocarto and customize it.
 You can for example define icons by category (social object); ours are in `html/icons`.
 > These have been built from these basic icons https://thenounproject.com/behanzin777/kit/favorites/
+
+
+### Update database
+
+  ```
+    csvdiff ref-rna-real-mars-2022.csv rna-real-mars-2022-new.csv -p 1 --columns 1 --format json | jq '.Additions' > experiments/update-database/diff.csv
+    python3 main.py
+  ```
+
 
 ## Contributors ✨
 

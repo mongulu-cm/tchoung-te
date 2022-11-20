@@ -28,6 +28,14 @@ then
     sudo mv secretsfoundry /usr/local/bin
 fi
 
+if ! command -v csvdiff &> /dev/null
+then
+    cd /tmp &&\
+    wget https://github.com/aswinkarthik/csvdiff/releases/download/v1.4.0/csvdiff_1.4.0_linux_64-bit.deb &&\
+    mv csvdiff_1.4.0_linux_64-bit.deb csvdiff.deb &&\
+    sudo dpkg -i csvdiff.deb
+fi
+
 if [[ $(pkg-config --cflags libpostal) != "-I/usr/local/include" ]]
 then
   sudo apt-get install curl autoconf automake libtool pkg-config

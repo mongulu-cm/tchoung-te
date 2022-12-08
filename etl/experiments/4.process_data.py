@@ -6,13 +6,17 @@ import numpy as np
 import pandas as pd
 
 # %%
+
+
 def remove_space_at_the_end(x: str):
     if x is not None:
         return x.strip()
 
+
 def replace_double_quote(x: str):
     if x is not None:
         return x.replace("\"\"", "'")
+
 
 def normalize(data: pd.DataFrame, text_columns):
     data[text_columns] = data[text_columns].apply(
@@ -29,13 +33,13 @@ def normalize(data: pd.DataFrame, text_columns):
     return data
 
 
-
 # %% [markdown]
 # ## Load and viz data
-
 # %%
-data = pd.read_csv("../ref-rna-real-mars-2022-enriched-not-qualified.csv", index_col=0)
-data = data[data.columns[1:]] # ignore first column it is index not correctly saved
+data = pd.read_csv(
+    "../ref-rna-real-mars-2022-enriched-not-qualified.csv", index_col=0)
+# ignore first column it is index not correctly saved
+data = data[data.columns[1:]]
 
 # %%
 data.info()
@@ -56,6 +60,3 @@ filename = '../ref-rna-real-mars-2022-enriched-not-qualified-process'
 data.to_csv(f'./{filename}.csv', index=False)
 
 # %%
-
-
-

@@ -11,8 +11,9 @@ pipdeptree==2.2.1
 pyarrow==8.0.0
 requests-cache==0.9.4
 tqdm==4.64.0
-wheel==0.37.1
+wheel==0.38.0
 abbreviations==0.2.5
 ftfy==6.1.1
 rich==12.4.4
 jupyterlab==3.4.8
+cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerability

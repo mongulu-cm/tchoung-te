@@ -11,7 +11,7 @@ pipdeptree==2.2.1
 pyarrow==8.0.0
 requests-cache==0.9.4
 tqdm==4.64.0
-wheel==0.38.0
+wheel==0.38.1
 abbreviations==0.2.5
 ftfy==6.1.1
 rich==12.4.4

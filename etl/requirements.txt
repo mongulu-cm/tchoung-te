@@ -18,3 +18,4 @@ rich==12.4.4
 jupyterlab==3.4.8
 cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerability
 ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
+lambdaprompt

@@ -20,3 +20,4 @@ jupyterlab==3.4.8
 #ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
 lambdaprompt==0.4.1
 openai==0.27.0
+boto3==1.26.82

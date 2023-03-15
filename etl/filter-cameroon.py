@@ -2,12 +2,15 @@
 # CSV Files downloaded from https://www.data.gouv.fr/fr/datasets/repertoire-national-des-associations/  Fichier RNA Waldec du 01 Mars 2022
 import glob
 import os
+import openai
+import boto3
 
 import geocoder
 import pandas as pd
 import requests_cache
 from geopy.geocoders import Nominatim
 from pandarallel import pandarallel
+from lambdaprompt import prompt, GPT3Prompt
 
 # %%
 file_location = os.getcwd() + "/rna_waldec_20220301/"
@@ -15,6 +18,10 @@ all_files = glob.glob(os.path.join(file_location, "*.csv"))
 
 df = pd.concat((pd.read_csv(f, delimiter=";", header=0, encoding="ISO-8859-1")
                for f in all_files), ignore_index=True)
+
+ssm = boto3.client('ssm', region_name='eu-central-1')
+openai.api_key = ssm.get_parameter(Name="/tchoung-te/openai_api_key", WithDecryption=False)['Parameter']['Value']
+os.environ["OPENAI_API_KEY"] = openai.api_key # setter la variable d'environnement
 
 # %%
 df.columns
@@ -47,11 +54,16 @@ def select_relevant_columns(df):
 
 
 def add_column_adrs(df):
+    # Create the address
     df["adrs"] = df['adrs_numvoie'].map(str) + " " + df['adrs_typevoie'].map(str) + " " + df['adrs_libvoie'].map(str)+" " + \
         df['adrs_codepostal'].map(str)+" "+df['adrs_libcommune'].map(str)
 
-    from postal.expand import expand_address
-    df["adrs"] = df.apply(lambda row: expand_address(row["adrs"])[0], axis=1)
+    # Complete the right way to write the type of way in the address while normalizing it entirely
+    # This prompt will correct the abbreviation, and errors in the address and add a comma btw "voie" and city
+    prompt_function = GPT3Prompt("Normalize the address in french : {{ prmt }} ")
+    tmp = df['adrs'].map(prompt_function).apply(lambda x: x.replace("\n", ""))
+    df['adrs'] = tmp
+
     return df
 
 

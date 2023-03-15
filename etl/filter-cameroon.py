@@ -54,14 +54,15 @@ def select_relevant_columns(df):
 
 
 def add_column_adrs(df):
-    # Complete the right way to write the type of way in the address
-    prompt_function = GPT3Prompt("Replace the abbreviation by the correct word in address in french: {{ prmt }} ")
-    tmp = df['adrs_typevoie'].map(prompt_function).apply(lambda x: x.replace("\n", ""))
-    df['adrs_typevoie'] = tmp
-
-    # Then concat the address
+    # Create the address
     df["adrs"] = df['adrs_numvoie'].map(str) + " " + df['adrs_typevoie'].map(str) + " " + df['adrs_libvoie'].map(str)+" " + \
         df['adrs_codepostal'].map(str)+" "+df['adrs_libcommune'].map(str)
+
+    # Complete the right way to write the type of way in the address while normalizing it entirely
+    # This prompt will correct the abbreviation, and errors in the address and add a comma btw "voie" and city
+    prompt_function = GPT3Prompt("Normalize the address in french : {{ prmt }} ")
+    tmp = df['adrs'].map(prompt_function).apply(lambda x: x.replace("\n", ""))
+    df['adrs'] = tmp
 
     return df
 

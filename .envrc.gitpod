@@ -36,20 +36,6 @@ then
     sudo dpkg -i csvdiff.deb
 fi
 
-if [[ $(pkg-config --cflags libpostal) != "-I/usr/local/include" ]]
-then
-  sudo apt-get install curl autoconf automake libtool pkg-config
-  git clone https://github.com/openvenues/libpostal
-  cd libpostal || exit
-  make distclean
-  sudo ./bootstrap.sh
-  mkdir dist
-  sudo ./configure --datadir="$WORKPLACE"/libpostal/dist
-  sudo make -j4
-  sudo make install
-  pip install postal==1.1.10
-fi
-
 if ! command -v aws &> /dev/null
 then
     pushd /tmp || exit

@@ -2,15 +2,15 @@
 # CSV Files downloaded from https://www.data.gouv.fr/fr/datasets/repertoire-national-des-associations/  Fichier RNA Waldec du 01 Mars 2022
 import glob
 import os
+import time
 import openai
 import boto3
-
-import geocoder
+from diskcache import Cache
 import pandas as pd
 import requests_cache
 from geopy.geocoders import Nominatim
 from pandarallel import pandarallel
-from lambdaprompt import prompt, GPT3Prompt
+from lambdaprompt import GPT3Prompt
 
 # %%
 file_location = os.getcwd() + "/rna_waldec_20220301/"
@@ -27,8 +27,6 @@ os.environ["OPENAI_API_KEY"] = openai.api_key # setter la variable d'environneme
 df.columns
 
 # %%
-
-
 def filter_cameroon(df):
     return df[df['titre'].str.contains("CAMEROUN", case=False, na=False) | df['objet'].str.contains("CAMEROUN", case=False, na=False)]
 
@@ -52,28 +50,109 @@ def normalize(df):
 def select_relevant_columns(df):
     return df[["id", "titre", "objet", "objet_social1", "objet_social2", "adrs_numvoie", "adrs_typevoie", "adrs_libvoie", "adrs_codepostal", "adrs_libcommune", "siteweb"]]
 
-
-def add_column_adrs(df):
-    # Create the address
-    df["adrs"] = df['adrs_numvoie'].map(str) + " " + df['adrs_typevoie'].map(str) + " " + df['adrs_libvoie'].map(str)+" " + \
-        df['adrs_codepostal'].map(str)+" "+df['adrs_libcommune'].map(str)
-
-    # Complete the right way to write the type of way in the address while normalizing it entirely
-    # This prompt will correct the abbreviation, and errors in the address and add a comma btw "voie" and city
-    prompt_function = GPT3Prompt("Normalize the address in french : {{ prmt }} ")
-    tmp = df['adrs'].map(prompt_function).apply(lambda x: x.replace("\n", ""))
-    df['adrs'] = tmp
-
-    return df
-
-
 df2 = df.pipe(filter_cameroon) \
         .pipe(remove_closed) \
         .pipe(normalize) \
-        .pipe(select_relevant_columns) \
-        .pipe(add_column_adrs)
+        .pipe(select_relevant_columns)
 
-df2.sample(5)
+# %%
+text_prompt= """
+Normalize the addresses in french.
+Don't ignore any lines and treat each address separetely and go step by step
+For the result, follow the same order I give you. Be sure that the number of lines you generate equals to the ones I pass you
+
+Adresses:
+62 RUE de la Ramassière 1600 Reyrieux
+20 bis RUE de Lyon 1800 Meximieux
+   1340 Marsonnas
+2 RUE Lalande 1000 Bourg-en-Bresse
+2 BD Irène Joliot Curie 1000 Bourg-en-Bresse
+  2, rue de la République 1000 Bourg-en-Bresse
+27 RUE Lulli 1000 Saint-Denis-lès-Bourg
+331 CHEM1 de Tir-Mir 1220 Divonne-les-Bains
+7 CHEM1 du levant 1220 Divonne-les-Bains
+   1210 Ferney-Voltaire
+429 RUE de l'Europe 1630 Saint-Genis-Pouilly
+177 RUE du Commerce 1170 Gex
+232 RUE du Muret 1200 Châtillon-en-Michaille
+11 PL Aristide Briand 2130 Fère-en-Tardenois
+5 RUE du Garet 69001 Lyon
+23 BD Gambetta 2700 Tergnier
+1 RUE de l'Eglise 2220 Cuiry-Housse
+   3350 Le    Brethon
+5/7 IMP Dieudonné Coste 3000 Moulins
+   4000 Digne-les-Bains
+1 PL des Félibres 4130 Volx
+775 CHEM1 du mas de Bos à la Font de Rey 30300 Beaucaire
+17 VILL1 Curial 75019 Paris
+ CHEM1 de Pré Lacour 5140 Aspremont
+50 AV du Commandant Bret 6400 Cannes
+
+Corrections:
+
+62 Rue de la Ramassière, 1600 Reyrieux
+20 bis Rue de Lyon, 1800 Meximieux
+1340 Marsonnas
+2 Rue Lalande, 1000 Bourg-en-Bresse
+2 Boulevard Irène Joliot Curie, 1000 Bourg-en-Bresse
+2 Rue de la République, 1000 Bourg-en-Bresse
+27 Rue Lulli, 1000 Saint-Denis-lès-Bourg
+331 Chemin de Tir-Mir, 1220 Divonne-les-Bains
+7 Chemin du Levant, 1220 Divonne-les-Bains
+1210 Ferney-Voltaire
+429 Rue de l'Europe, 1630 Saint-Genis-Pouilly
+177 Rue du Commerce, 1170 Gex
+232 Rue du Muret, 1200 Châtillon-en-Michaille
+11 Place Aristide Briand, 2130 Fère-en-Tardenois
+5 Rue du Garet, 69001 Lyon
+23 Boulevard Gambetta, 2700 Tergnier
+1 Rue de l'Eglise, 2220 Cuiry-Housse
+3350 Le Brethon
+5/7 Impasse Dieudonné Coste, 3000 Moulins
+4000 Digne-les-Bains
+1 Place des Félibres, 4130 Volx
+775 Chemin du Mas de Bos à la Font de Rey, 30300 Beaucaire
+17 Villa Curial, 75019 Paris
+Chemin de Pré Lacour, 5140 Aspremont
+50 Avenue du Commandant Bret, 6400 Cannes
+
+###
+Adresses:
+{{ prmt }}
+
+Corrections:
+"""
+prompt_function_batch = GPT3Prompt(text_prompt, max_tokens=2000)
+
+from rich.console import Console
+console = Console()
+cache = Cache('prompt_address_cache')
+
+"""
+OpenAI has a limit of 20 requests per minute and 150 000 TPM and lambdaprompt is hardcoded to 500 tokens max
+So we need to batch request by 25 max 25*18[mean token adrs size] = 450 with a proper delay
+"""
+import numpy as np
+num_batches = int(np.ceil(len(df2) / 25))
+batches = np.array_split(df2, num_batches)
+
+try:
+    for batch in batches:
+        batch["adrs"] = batch['adrs_numvoie'].map(str) + " " + batch['adrs_typevoie'].map(str) + " " + batch['adrs_libvoie'].map(
+            str) + " " + batch['adrs_codepostal'].map(str) + " " + batch['adrs_libcommune'].map(str)
+        list_adresses =" "
+        for address in batch["adrs"]:
+            list_adresses += f"{address}\n"
+
+        if list_adresses not in cache:
+            clean_adresses = prompt_function_batch(prmt=list_adresses)
+            clean_adresses = clean_adresses.split("\n")
+            cache[list_adresses] = clean_adresses[1:] if len(clean_adresses) != len(batch["adrs"]) else clean_adresses
+            time.sleep(120)
+        batch["adrs"] = cache[list_adresses]
+
+except Exception as e:
+    console.print_exception(show_locals=True)
 
 # %%
 # Downloaded from https://download.geonames.org/export/zip/

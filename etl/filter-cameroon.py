@@ -1,5 +1,7 @@
 # %%
 # CSV Files downloaded from https://www.data.gouv.fr/fr/datasets/repertoire-national-des-associations/  Fichier RNA Waldec du 01 Mars 2022
+import numpy as np
+from rich.console import Console
 import glob
 import os
 import time
@@ -11,22 +13,41 @@ import requests_cache
 from geopy.geocoders import Nominatim
 from pandarallel import pandarallel
 from lambdaprompt import GPT3Prompt
+import time
+import datetime as dt
+
 
 # %%
+start = time.time()
 file_location = os.getcwd() + "/rna_waldec_20220301/"
 all_files = glob.glob(os.path.join(file_location, "*.csv"))
 
-df = pd.concat((pd.read_csv(f, delimiter=";", header=0, encoding="ISO-8859-1")
-               for f in all_files), ignore_index=True)
+columns = ["id", "titre", "objet", "objet_social1", "objet_social2", "adrs_numvoie", "position", "adrs_typevoie", "adrs_libvoie", "adrs_codepostal",
+           "adrs_libcommune", "siteweb"]
 
+df = pd.concat((pd.read_csv(f, delimiter=";", header=0, encoding="ISO-8859-1",
+               usecols=columns, engine='c') for f in all_files), ignore_index=True)
+
+end = time.time()
+print(f"Time to read all CSV : {dt.timedelta(seconds=end - start)}")
+
+# %%
 ssm = boto3.client('ssm', region_name='eu-central-1')
-openai.api_key = ssm.get_parameter(Name="/tchoung-te/openai_api_key", WithDecryption=False)['Parameter']['Value']
-os.environ["OPENAI_API_KEY"] = openai.api_key # setter la variable d'environnement
+
+openai.api_key = ssm.get_parameter(
+    Name="/tchoung-te/openai_api_key", WithDecryption=False)['Parameter']['Value']
+
+
+# setter la variable d'environnement
+os.environ["OPENAI_API_KEY"] = openai.api_key
 
 # %%
 df.columns
 
 # %%
+start = time.time()
+
+
 def filter_cameroon(df):
     return df[df['titre'].str.contains("CAMEROUN", case=False, na=False) | df['objet'].str.contains("CAMEROUN", case=False, na=False)]
 
@@ -50,13 +71,16 @@ def normalize(df):
 def select_relevant_columns(df):
     return df[["id", "titre", "objet", "objet_social1", "objet_social2", "adrs_numvoie", "adrs_typevoie", "adrs_libvoie", "adrs_codepostal", "adrs_libcommune", "siteweb"]]
 
+
 df2 = df.pipe(filter_cameroon) \
         .pipe(remove_closed) \
-        .pipe(normalize) \
-        .pipe(select_relevant_columns)
+        .pipe(normalize)
+
+end = time.time()
+print(f"Time to Filter Rows : {dt.timedelta(seconds=end - start)}")
 
 # %%
-text_prompt= """
+text_prompt = """
 Normalize the addresses in french.
 Don't ignore any lines and treat each address separetely and go step by step
 For the result, follow the same order I give you. Be sure that the number of lines you generate equals to the ones I pass you
@@ -124,7 +148,6 @@ Corrections:
 """
 prompt_function_batch = GPT3Prompt(text_prompt, max_tokens=2000)
 
-from rich.console import Console
 console = Console()
 cache = Cache('prompt_address_cache')
 
@@ -132,27 +155,45 @@ cache = Cache('prompt_address_cache')
 OpenAI has a limit of 20 requests per minute and 150 000 TPM and lambdaprompt is hardcoded to 500 tokens max
 So we need to batch request by 25 max 25*18[mean token adrs size] = 450 with a proper delay
 """
-import numpy as np
-num_batches = int(np.ceil(len(df2) / 25))
-batches = np.array_split(df2, num_batches)
 
-try:
-    for batch in batches:
-        batch["adrs"] = batch['adrs_numvoie'].map(str) + " " + batch['adrs_typevoie'].map(str) + " " + batch['adrs_libvoie'].map(
-            str) + " " + batch['adrs_codepostal'].map(str) + " " + batch['adrs_libcommune'].map(str)
-        list_adresses =" "
+# Build a list of all adresses in the cache & remove useless spaces
+all_adresses = '\n'.join(list(cache))
+all_adresses = all_adresses.split('\n')
+all_adresses = [x.strip() for x in all_adresses]
+
+# Build adresse by concatenation
+df2["adrs"] = df2['adrs_numvoie'].map(str) + " " + df2['adrs_typevoie'].map(str) + " " + df2['adrs_libvoie'].map(
+    str) + " " + df2['adrs_codepostal'].map(str) + " " + df2['adrs_libcommune'].map(str)
+
+
+df2['adrs'] = df2.adrs.apply(lambda x: x.strip())
+
+
+# Filter only adresses not present in the cache yet
+df_not_in_cache = df2[~df2.adrs.isin(all_adresses)]
+
+print(f"{len(df_not_in_cache)} adresses not present in cache...")
+# %%
+if len(df_not_in_cache) > 0:
+    num_batches = int(np.ceil(len(df_not_in_cache) / 25))
+    batches = np.array_split(df_not_in_cache, num_batches)
+
+    for id_batch, batch in enumerate(batches):
+        print(f"ID Batch : {id_batch}")
+        list_adresses = " "
         for address in batch["adrs"]:
             list_adresses += f"{address}\n"
 
-        if list_adresses not in cache:
+        if list_adresses not in list(cache):
             clean_adresses = prompt_function_batch(prmt=list_adresses)
             clean_adresses = clean_adresses.split("\n")
-            cache[list_adresses] = clean_adresses[1:] if len(clean_adresses) != len(batch["adrs"]) else clean_adresses
+            cache[list_adresses] = clean_adresses[1:] if len(
+                clean_adresses) != len(batch["adrs"]) else clean_adresses
             time.sleep(120)
         batch["adrs"] = cache[list_adresses]
 
-except Exception as e:
-    console.print_exception(show_locals=True)
+# %%
+df2.head()
 
 # %%
 # Downloaded from https://download.geonames.org/export/zip/
@@ -313,3 +354,5 @@ df2.sample(5)
 
 # %%
 df2.to_csv("rna-real-mars-2022-new.csv")
+
+# %%

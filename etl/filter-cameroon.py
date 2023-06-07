@@ -49,7 +49,7 @@ start = time.time()
 
 
 def filter_cameroon(df):
-    return df[df['titre'].str.contains("CAMEROUN", case=False, na=False) | df['objet'].str.contains("CAMEROUN", case=False, na=False)]
+    return df[df['titre'].str.contains("CAMEROUN", case=False, na=False) | df['objet'].str.contains("CAMEROUN", case=False, na=False) | df['titre'].str.contains("KMER", case=False, na=False) | df['objet'].str.contains("KMER", case=False, na=False)]
 
 
 def remove_closed(df):

@@ -7,7 +7,6 @@ jupyter==1.0.0
 jupyter-utils==1.2.6
 pandarallel==1.6.1
 pipdeptree==2.2.1
-pyarrow==8.0.0
 requests-cache==0.9.4
 tqdm==4.64.0
 wheel==0.38.1
@@ -22,3 +21,4 @@ lambdaprompt==0.4.2
 openai==0.27.0
 boto3==1.26.82
 diskcache==5.4.0
+numpy==1.24.3

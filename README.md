@@ -38,7 +38,7 @@ Execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
     python3 -m ipykernel install --user --name=etl
     jupyter trust filter-cameroon.ipynb && jupyter trust enrich-database.ipynb
     aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
-    secretsfoundry run --script 'jupyter lab'
+    secretsfoundry run --script 'python filter-cameroon.py'
   ```
 
 Finally use the resulting csv file as a data source in Gogocarto and customize it.
@@ -53,6 +53,12 @@ You can for example define icons by category (social object); ours are in `html/
     python3 main.py
   ```
 
+### Start the chatbot
+
+  ```
+    cd etl/experiments
+    secretsfoundry run -p ../ --script "chainlit run ui.py"
+  ```
 
 ## Contributors ✨
 

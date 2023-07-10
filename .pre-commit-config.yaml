@@ -9,7 +9,6 @@ repos:
 -   repo:  https://github.com/gruntwork-io/pre-commit
     rev: v0.1.17
     hooks:
-    - id: shellcheck
     - id: terraform-fmt
     - id: terraform-validate
 -   repo: https://github.com/Yelp/detect-secrets

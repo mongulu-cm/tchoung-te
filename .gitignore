@@ -182,3 +182,4 @@ package.json
 .aws/
 ## To avoid commit of .envrc in gitpod because this cause gitpod to execute .envrc instead of gitpod.yml
 .envrc
+etl/experiments/.chainlit/**

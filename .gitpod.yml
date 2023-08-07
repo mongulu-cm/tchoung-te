@@ -27,3 +27,5 @@ ports:
 vscode:
   extensions:
     - vivaxy.vscode-conventional-commits
+    - sourcegraph.cody-ai
+    - donjayamanne.githistory

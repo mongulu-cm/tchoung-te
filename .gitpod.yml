@@ -12,20 +12,14 @@ tasks:
       curl "https://media.interieur.gouv.fr/rna/rna_waldec_20220301.zip" -o rna_waldec_20220301.zip
       unzip rna_waldec_20220301.zip -d rna_waldec_20220301
       rm -f rna_waldec_20220301.zip
-      jupyter trust filter-cameroon.ipynb && jupyter trust enrich-database.ipynb
       popd
     command: |
       bash .envrc.gitpod
       cp .envrc.gitpod .envrc
-      cd etl/
-      secretsfoundry run --script 'jupyter lab --ServerApp.allow_origin=\"$(gp url 8888)\"'
-
-ports:
-- port: 8888
-  onOpen: open-browser
 
 vscode:
   extensions:
     - vivaxy.vscode-conventional-commits
     - sourcegraph.cody-ai
     - donjayamanne.githistory
+    - amazonwebservices.aws-toolkit-vscode

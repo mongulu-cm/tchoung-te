@@ -26,7 +26,7 @@ messages = [
 CHAT_PROMPT = ChatPromptTemplate.from_messages(messages)
 
 
-loader = CSVLoader(file_path="../ref-rna-real-mars-2022-enriched-qualified.csv", encoding="utf-8")
+loader = CSVLoader(file_path="ref-rna-real-mars-2022-enriched-qualified.csv", encoding="utf-8")
 data = loader.load()
 embeddings = OpenAIEmbeddings()
 vectors = FAISS.from_documents(data, embeddings)

@@ -185,4 +185,4 @@ package.json
 etl/experiments/.chainlit/**
 etl/.chainlit/**
 etl/embeddings/**
-etl/chainlit.md
+

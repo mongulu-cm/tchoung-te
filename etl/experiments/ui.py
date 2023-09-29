@@ -3,8 +3,9 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.chat_models import ChatOpenAI
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain.chains import ConversationChain
+from langchain.chains.conversation.memory import ConversationBufferMemory
+from langchain.chains import RetrievalQA,ConversationalRetrievalChain
 from langchain.prompts.chat import (
     ChatPromptTemplate,
     HumanMessagePromptTemplate,
@@ -37,14 +38,15 @@ else:
 
 llm = ChatOpenAI(max_tokens=500,temperature=0,model_name="gpt-3.5-turbo")
 chain_type_kwargs = {"prompt": CHAT_PROMPT}
-qa = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=vectors.as_retriever(search_kwargs={"k": 3}),
-    chain_type_kwargs=chain_type_kwargs,
-    return_source_documents=True
-)
+
+
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+chain = ConversationalRetrievalChain.from_llm(llm = llm,
+                                        retriever=vectors.as_retriever(search_kwargs={"k": 3}),
+                                        combine_docs_chain_kwargs=chain_type_kwargs,
+                                        chain_type="stuff",
+                                        memory=memory)
 
 @cl.langchain_factory(use_async=True)
 def factory():
-    return qa
+    return chain

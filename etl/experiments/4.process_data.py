@@ -2,7 +2,6 @@
 # ## Necessary imports
 
 # %%
-import numpy as np
 import pandas as pd
 
 # %%
@@ -15,7 +14,7 @@ def remove_space_at_the_end(x: str):
 
 def replace_double_quote(x: str):
     if x is not None:
-        return x.replace("\"\"", "'")
+        return x.replace('""', "'")
 
 
 def normalize(data: pd.DataFrame, text_columns):
@@ -36,8 +35,7 @@ def normalize(data: pd.DataFrame, text_columns):
 # %% [markdown]
 # ## Load and viz data
 # %%
-data = pd.read_csv(
-    "../ref-rna-real-mars-2022-enriched-not-qualified.csv", index_col=0)
+data = pd.read_csv("../ref-rna-real-mars-2022-enriched-not-qualified.csv", index_col=0)
 # ignore first column it is index not correctly saved
 data = data[data.columns[1:]]
 
@@ -45,9 +43,7 @@ data = data[data.columns[1:]]
 data.info()
 
 # %%
-text_columns = [
-    "titre", "objet", "social_object1_libelle", "social_object2_libelle"
-]
+text_columns = ["titre", "objet", "social_object1_libelle", "social_object2_libelle"]
 
 data = normalize(data, text_columns)
 data.sample(5)
@@ -56,7 +52,7 @@ data.sample(5)
 # ## Save without index
 
 # %%
-filename = '../ref-rna-real-mars-2022-enriched-not-qualified-process'
-data.to_csv(f'./{filename}.csv', index=False)
+filename = "../ref-rna-real-mars-2022-enriched-not-qualified-process"
+data.to_csv(f"./{filename}.csv", index=False)
 
 # %%

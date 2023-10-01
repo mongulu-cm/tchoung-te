@@ -1,21 +1,20 @@
 # %%
 # CSV Files downloaded from https://www.data.gouv.fr/fr/datasets/repertoire-national-des-associations/  Fichier RNA Waldec du 01 Mars 2022
-import numpy as np
-from rich.console import Console
+import datetime as dt
 import glob
 import os
 import time
-import openai
+
 import boto3
-from diskcache import Cache
+import numpy as np
+import openai
 import pandas as pd
 import requests_cache
+from diskcache import Cache
 from geopy.geocoders import Nominatim
-from pandarallel import pandarallel
 from lambdaprompt import GPT3Prompt
-import time
-import datetime as dt
-
+from pandarallel import pandarallel
+from rich.console import Console
 
 # %%
 start = time.time()
@@ -36,7 +35,35 @@ columns = [
     "adrs_libcommune",
     "siteweb",
 ]
+columns = [
+    "id",
+    "titre",
+    "objet",
+    "objet_social1",
+    "objet_social2",
+    "adrs_numvoie",
+    "position",
+    "adrs_typevoie",
+    "adrs_libvoie",
+    "adrs_codepostal",
+    "adrs_libcommune",
+    "siteweb",
+]
 
+df = pd.concat(
+    (
+        pd.read_csv(
+            f,
+            delimiter=";",
+            header=0,
+            encoding="ISO-8859-1",
+            usecols=columns,
+            engine="c",
+        )
+        for f in all_files
+    ),
+    ignore_index=True,
+)
 df_associations = pd.concat(
     [
         pd.read_csv(
@@ -57,8 +84,11 @@ print(f"Time to read all CSV : {dt.timedelta(seconds=end - start)}")
 
 # %%
 ssm = boto3.client("ssm", region_name="eu-central-1")
+ssm = boto3.client("ssm", region_name="eu-central-1")
 
 openai.api_key = ssm.get_parameter(
+    Name="/tchoung-te/openai_api_key", WithDecryption=False
+)["Parameter"]["Value"]
     Name="/tchoung-te/openai_api_key", WithDecryption=False
 )["Parameter"]["Value"]
 
@@ -72,6 +102,12 @@ start = time.time()
 
 
 def filter_cameroon(df):
+    return df[
+        df["titre"].str.contains("CAMEROUN", case=False, na=False)
+        | df["objet"].str.contains("CAMEROUN", case=False, na=False)
+        | df["titre"].str.contains("KMER", case=False, na=False)
+        | df["objet"].str.contains("KMER", case=False, na=False)
+    ]
     """
     Filter associations with "Cameroun" in the title or the object
     """
@@ -89,6 +125,11 @@ def remove_closed(df):
 
 
 def normalize(df):
+    df["titre"] = df["titre"].str.upper()
+    df["objet"] = df["objet"].str.lower()
+    df["adrs_codepostal"] = df["adrs_codepostal"].astype(int)
+    df["objet_social1"] = df["objet_social1"].astype(int)
+    df["objet_social2"] = df["objet_social2"].astype(int)
     """
     Normalize strings in the associations infos
     """
@@ -103,6 +144,25 @@ def normalize(df):
     return df
 
 
+def select_relevant_columns(df):
+    return df[
+        [
+            "id",
+            "titre",
+            "objet",
+            "objet_social1",
+            "objet_social2",
+            "adrs_numvoie",
+            "adrs_typevoie",
+            "adrs_libvoie",
+            "adrs_codepostal",
+            "adrs_libcommune",
+            "siteweb",
+        ]
+    ]
+
+
+df2 = df.pipe(filter_cameroon).pipe(remove_closed).pipe(normalize)
 df_cameroon_associations = (
     df_associations.pipe(filter_cameroon).pipe(remove_closed).pipe(normalize)
 )
@@ -190,9 +250,22 @@ So we need to batch request by 25 max 25*18[mean token adrs size] = 450 with a p
 # Build a list of all adresses in the cache & remove useless spaces
 all_adresses = "\n".join(list(cache))
 all_adresses = all_adresses.split("\n")
+all_adresses = "\n".join(list(cache))
+all_adresses = all_adresses.split("\n")
 all_adresses = [x.strip() for x in all_adresses]
 
 # Build adresse by concatenation
+df2["adrs"] = (
+    df2["adrs_numvoie"].map(str)
+    + " "
+    + df2["adrs_typevoie"].map(str)
+    + " "
+    + df2["adrs_libvoie"].map(str)
+    + " "
+    + df2["adrs_codepostal"].map(str)
+    + " "
+    + df2["adrs_libcommune"].map(str)
+)
 df_cameroon_associations["adrs"] = (
     df_cameroon_associations["adrs_numvoie"].map(str)
     + " "
@@ -273,6 +346,7 @@ waldec_csv[6035] = "CULTURE, PRATIQUES D'ACTIVITÉS ARTISTIQUES, PRATIQUES CULTU
 waldec_csv[40510] = "ACTIVITÉS RELIGIEUSES, SPIRITUELLES OU PHILOSOPHIQUES"
 waldec_csv[17035] = "SANTÉ"
 waldec_csv[40580] = "ACTIVTÉS RELIGIEUSES, SPIRITUELLES OU PHILOSOPHIQUES"
+
 
 # %%
 

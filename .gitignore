@@ -186,3 +186,4 @@ etl/experiments/.chainlit/**
 etl/.chainlit/**
 etl/embeddings/**
 
+format.*

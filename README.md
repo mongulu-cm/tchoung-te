@@ -37,8 +37,6 @@ If you are here, it means that you are interested in an in-house deployment of t
 Execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
   ```
     pipenv shell
-    python3 -m ipykernel install --user --name=etl
-    jupyter trust filter-cameroon.ipynb && jupyter trust enrich-database.ipynb
     aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
     secretsfoundry run --script 'python filter-cameroon.py'
   ```

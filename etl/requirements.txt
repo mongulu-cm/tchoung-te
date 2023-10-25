@@ -22,7 +22,7 @@ openai==0.27.0
 boto3==1.26.82
 diskcache==5.4.0
 numpy==1.24.3
-langchain==0.0.236
+langchain==0.0.317
 faiss-cpu==1.7.4
 tiktoken==0.4.0
 chainlit==0.5.1

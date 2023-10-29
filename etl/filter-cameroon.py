@@ -276,7 +276,6 @@ waldec_csv[40580] = "ACTIVTÉS RELIGIEUSES, SPIRITUELLES OU PHILOSOPHIQUES"
 
 # %%
 
-
 def get_dept_region(code_postal):
     try:
         dept = dept_by_postal_codes[str(code_postal)]

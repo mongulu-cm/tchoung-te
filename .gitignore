@@ -187,3 +187,7 @@ etl/.chainlit/**
 etl/embeddings/**
 
 format.*
+
+# Ignore DevSpace/chainlit cache and log folder
+.devspace/
+.chainlit/

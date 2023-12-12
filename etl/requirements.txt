@@ -1,7 +1,6 @@
 colorama==0.4.4
 findspark==2.0.1
 geocoder==1.38.1
-geopandas==0.10.2
 geopy==2.2.0
 jupyter==1.0.0
 jupyter-utils==1.2.6

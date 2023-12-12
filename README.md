@@ -25,6 +25,7 @@ If you are here, it means that you are interested in an in-house deployment of t
 * Have a minimum of competence on the AWS and Terraform cloud
 * Create a Sourcegraph account and get credentials to use [CodyAI](https://www.youtube.com/watch?v=_csyHcEcxDA)
 * Create a AWS Builder ID to use [Code whisperer](https://www.youtube.com/watch?v=rHNMfOK8pWI) *[Optional]*
+*  [Devspace](https://www.devspace.sh/) installed locally
 * Have admin access on a [Gogocarto](https://gogocarto.fr/projects)
 * Go through the [Gogocarto tutorials](https://peertube.openstreetmap.fr/c/gogo_tutos/videos)
 * Locally install all tools ( `init` and `command` scripts from the [.gitpod.yml](.gitpod.yml) file **or** use a ready-made development environment on gitpod :
@@ -58,6 +59,12 @@ You can for example define icons by category (social object); ours are in `html/
   ```
     cd etl/experiments
     secretsfoundry run -p ../ --script "chainlit run ui.py"
+  ```
+
+### Deploy the chatbot
+
+  ```
+   devspace deploy
   ```
 
 ## Contributors ✨

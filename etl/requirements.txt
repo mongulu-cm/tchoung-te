@@ -1,7 +1,6 @@
 colorama==0.4.4
 findspark==2.0.1
 geocoder==1.38.1
-geopandas==0.10.2
 geopy==2.2.0
 jupyter==1.0.0
 jupyter-utils==1.2.6
@@ -18,7 +17,7 @@ cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerabili
 ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
 setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
 lambdaprompt==0.4.2
-openai==0.27.0
+openai==0.27.8
 boto3==1.26.82
 diskcache==5.4.0
 numpy==1.24.3

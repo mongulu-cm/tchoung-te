@@ -182,3 +182,12 @@ package.json
 .aws/
 ## To avoid commit of .envrc in gitpod because this cause gitpod to execute .envrc instead of gitpod.yml
 .envrc
+etl/experiments/.chainlit/**
+etl/.chainlit/**
+etl/embeddings/**
+
+format.*
+
+# Ignore DevSpace/chainlit cache and log folder
+.devspace/
+.chainlit/

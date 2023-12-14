@@ -38,7 +38,7 @@ else:
     vectors = FAISS.from_documents(data, embeddings)
     vectors.save_local(embedding_pth)
 
-llm = ChatOpenAI(max_tokens=500, temperature=0, model_name="gpt-3.5-turbo")
+llm = ChatOpenAI(max_tokens=500, temperature=0, model_name="gpt-3.5-turbo-16k")
 chain_type_kwargs = {"prompt": CHAT_PROMPT}
 
 

@@ -1,6 +1,7 @@
 import os
 
 import chainlit as cl
+import sentry_sdk
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
 from langchain.chat_models import ChatOpenAI
@@ -12,6 +13,15 @@ from langchain.prompts.chat import (
     SystemMessagePromptTemplate,
 )
 from langchain.vectorstores import FAISS
+
+
+sentry_sdk.init(
+    dsn="https://a38e91a66c70912c38406fef32d86809@o4504301629407232.ingest.sentry.io/4506436450844672",
+    # Set traces_sample_rate to 1.0 to capture 100% of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100% of sampled transactions.We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
 
 system_template = """Vous êtes un assistant IA qui fournit des informations sur les associations camerounaises en France. Vous recevez une question et fournissez une réponse claire et structurée. Lorsque cela est pertinent, utilisez des points et des listes pour structurer vos réponses.
 
@@ -38,20 +48,26 @@ else:
     vectors = FAISS.from_documents(data, embeddings)
     vectors.save_local(embedding_pth)
 
-llm = ChatOpenAI(max_tokens=500, temperature=0, model_name="gpt-3.5-turbo-16k")
+llm = ChatOpenAI(max_tokens=500, temperature=0, model_name="gpt-3.5-turbo",streaming=True)
 chain_type_kwargs = {"prompt": CHAT_PROMPT}
 
 
-memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-chain = ConversationalRetrievalChain.from_llm(
-    llm=llm,
-    retriever=vectors.as_retriever(search_kwargs={"k": 3}),
-    combine_docs_chain_kwargs=chain_type_kwargs,
-    chain_type="stuff",
-    memory=memory,
-)
+@cl.on_chat_start
+async def main():
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+    chain = ConversationalRetrievalChain.from_llm(
+        llm=llm,
+        retriever=vectors.as_retriever(search_kwargs={"k": 3}),
+        combine_docs_chain_kwargs=chain_type_kwargs,
+        chain_type="stuff",
+        memory=memory,
+    )
+    cl.user_session.set("chain", chain)
 
+@cl.on_message
+async def main(message: str):
+    chain = cl.user_session.get("chain")
 
-@cl.langchain_factory(use_async=True)
-def factory():
-    return chain
+    res = await cl.make_async(chain)(message)
+    # Send the response
+    await cl.Message(content=res["answer"]).send()

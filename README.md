@@ -57,8 +57,8 @@ You can for example define icons by category (social object); ours are in `html/
 ### Start the chatbot
 
   ```
-    cd etl/experiments
-    secretsfoundry run -p ../ --script "chainlit run ui.py"
+    cd etl/
+    secretsfoundry run -p --script "chainlit run experiments/ui.py"
   ```
 
 ### Deploy the chatbot

@@ -13,7 +13,9 @@ from langchain.prompts.chat import (
     SystemMessagePromptTemplate,
 )
 from langchain.vectorstores import FAISS
-
+from langchain.callbacks.streaming_stdout_final_only import (
+    StreamingStdOutCallbackHandler,
+)
 
 sentry_sdk.init(
     dsn="https://a38e91a66c70912c38406fef32d86809@o4504301629407232.ingest.sentry.io/4506436450844672",
@@ -48,7 +50,7 @@ else:
     vectors = FAISS.from_documents(data, embeddings)
     vectors.save_local(embedding_pth)
 
-llm = ChatOpenAI(max_tokens=500, temperature=0, model_name="gpt-3.5-turbo",streaming=True)
+llm = ChatOpenAI(max_tokens=500, temperature=0, model_name="gpt-3.5-turbo",streaming=True,callbacks=[StreamingStdOutCallbackHandler()])
 chain_type_kwargs = {"prompt": CHAT_PROMPT}
 
 

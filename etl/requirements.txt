@@ -2,8 +2,8 @@ colorama==0.4.4
 findspark==2.0.1
 geocoder==1.38.1
 geopy==2.2.0
-jupyter==1.0.0
-jupyter-utils==1.2.6
+#jupyter==1.0.0
+#jupyter-utils==1.2.6
 pandarallel==1.6.1
 pipdeptree==2.2.1
 requests-cache==0.9.4
@@ -12,7 +12,7 @@ wheel==0.38.1
 abbreviations==0.2.5
 ftfy==6.1.1
 rich==12.4.4
-jupyterlab==3.6.7
+#jupyterlab==3.6.7
 cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerability
 ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
 setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability

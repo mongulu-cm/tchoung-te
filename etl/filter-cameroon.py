@@ -35,35 +35,7 @@ columns = [
     "adrs_libcommune",
     "siteweb",
 ]
-columns = [
-    "id",
-    "titre",
-    "objet",
-    "objet_social1",
-    "objet_social2",
-    "adrs_numvoie",
-    "position",
-    "adrs_typevoie",
-    "adrs_libvoie",
-    "adrs_codepostal",
-    "adrs_libcommune",
-    "siteweb",
-]
 
-df = pd.concat(
-    (
-        pd.read_csv(
-            f,
-            delimiter=";",
-            header=0,
-            encoding="ISO-8859-1",
-            usecols=columns,
-            engine="c",
-        )
-        for f in all_files
-    ),
-    ignore_index=True,
-)
 df_associations = pd.concat(
     [
         pd.read_csv(
@@ -84,14 +56,10 @@ print(f"Time to read all CSV : {dt.timedelta(seconds=end - start)}")
 
 # %%
 ssm = boto3.client("ssm", region_name="eu-central-1")
-ssm = boto3.client("ssm", region_name="eu-central-1")
 
 openai.api_key = ssm.get_parameter(
     Name="/tchoung-te/openai_api_key", WithDecryption=False
 )["Parameter"]["Value"]
-    Name="/tchoung-te/openai_api_key", WithDecryption=False
-)["Parameter"]["Value"]
-
 
 # setter la variable d'environnement
 os.environ["OPENAI_API_KEY"] = openai.api_key
@@ -162,7 +130,7 @@ def select_relevant_columns(df):
     ]
 
 
-df2 = df.pipe(filter_cameroon).pipe(remove_closed).pipe(normalize)
+
 df_cameroon_associations = (
     df_associations.pipe(filter_cameroon).pipe(remove_closed).pipe(normalize)
 )

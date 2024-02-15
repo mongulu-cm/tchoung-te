@@ -1,8 +1,8 @@
 tasks:
   - init: |
       pushd etl/
-      pip install pre-commit && pip install detect-secrets
-      pip install -r requirements.txt && pip install -r requirements-dev.txt
+      pip3.10 install pre-commit && pip3.10 install detect-secrets
+      pip3.10 install -r requirements.txt && pip3.10 install -r requirements-dev.txt
       popd
 
       pushd etl/

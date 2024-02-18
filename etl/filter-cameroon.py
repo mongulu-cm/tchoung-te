@@ -70,18 +70,14 @@ start = time.time()
 
 
 def filter_cameroon(df):
-    return df[
-        df["titre"].str.contains("CAMEROUN", case=False, na=False)
-        | df["objet"].str.contains("CAMEROUN", case=False, na=False)
-        | df["titre"].str.contains("KMER", case=False, na=False)
-        | df["objet"].str.contains("KMER", case=False, na=False)
-    ]
     """
     Filter associations with "Cameroun" in the title or the object
     """
     return df[
         df["titre"].str.contains("CAMEROUN", case=False, na=False)
         | df["objet"].str.contains("CAMEROUN", case=False, na=False)
+        | df["titre"].str.contains("KMER", case=False, na=False)
+        | df["objet"].str.contains("KMER", case=False, na=False)
     ]
 
 
@@ -93,16 +89,11 @@ def remove_closed(df):
 
 
 def normalize(df):
-    df["titre"] = df["titre"].str.upper()
-    df["objet"] = df["objet"].str.lower()
-    df["adrs_codepostal"] = df["adrs_codepostal"].astype(int)
-    df["objet_social1"] = df["objet_social1"].astype(int)
-    df["objet_social2"] = df["objet_social2"].astype(int)
     """
     Normalize strings in the associations infos
     """
-    df["titre"].str.upper()
-    df["objet"].str.lower()
+    df["titre"] = df["titre"].str.upper()
+    df["objet"] = df["objet"].str.lower()
     df["adrs_codepostal"] = df["adrs_codepostal"].astype(int)
     df["objet_social1"] = df["objet_social1"].astype(int)
     df["objet_social2"] = df["objet_social2"].astype(int)
@@ -128,7 +119,6 @@ def select_relevant_columns(df):
             "siteweb",
         ]
     ]
-
 
 
 df_cameroon_associations = (
@@ -317,6 +307,7 @@ waldec_csv[40580] = "ACTIVTÉS RELIGIEUSES, SPIRITUELLES OU PHILOSOPHIQUES"
 
 
 # %%
+
 
 def get_dept_region(code_postal):
     try:

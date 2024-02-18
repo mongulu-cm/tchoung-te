@@ -96,7 +96,7 @@ dev:
     open:
       - url: http://localhost:8000
 
-# Use the `commands` section to define repeatable dev workflows for this project 
+# Use the `commands` section to define repeatable dev workflows for this project
 commands:
   migrate-db:
     command: |-

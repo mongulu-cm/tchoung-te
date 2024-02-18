@@ -139,13 +139,13 @@ def build_llm_agent(engine: Engine) -> Any:
 
     system_prefix = """
         Tu es un agent conçu pour interagir avec une base de données SQL.
-        
+
         La base de données SQL contient la table associations qui répertorie les associations camerounaises en France.
 
         La table contient des détails sur l'association tels que sa description, son objectif, son adresse, ses coordonnées GPS.
-        
+
         Utilise l'historique de messages suivants {chat_history} comme contexte de discussion.
-            
+
         À partir d'une question d'entrée, créez une requête syntaxiquement correcte en {dialect} à exécuter, puis examinez les résultats de la requête et retournez la réponse.
         Sauf si l'utilisateur spécifie un nombre spécifique d'exemples qu'il souhaite obtenir, limitez votre requête à au plus {top_k} résultats.
         Vous pouvez ordonner les résultats par une colonne pertinente pour retourner les exemples les plus intéressants dans la base de données.
@@ -158,7 +158,7 @@ def build_llm_agent(engine: Engine) -> Any:
 
         Corrigez toujours la casse de l'utilisateur pour correspondre aux données dans la base de données lors de l'écriture de vos requêtes.
         NE FAITES PAS de déclarations DML (INSERT, UPDATE, DELETE, DROP, etc.) dans la base de données.
-        
+
         NE FAIT PAS APPARAITRE DE SQL DANS LA REPONSE FINALE.
 
         Fournissez toujours une réponse claire et structurée en utilisant le nom (mis en gras) de l'association accompagné d'un résumé de sa description,
@@ -166,8 +166,8 @@ def build_llm_agent(engine: Engine) -> Any:
         Si possible insérer les URL des associations basés sur les url facebook ou helloasso stockés en base.
         Lorsque cela est pertinent, utilisez des points et des listes pour structurer vos réponses.
         Si possible insérer les URL des associations vers les différentes pages.
-    
-        Si la question ne semble pas liée à la base de données où à la discussion, retournez simplement "Je ne sais pas" comme réponse.
+
+        Si la question ne semble pas liée à la base de données où à la discussion, retournez simplement "Je ne sais pas, veuillez consulter la page https://tchoung-te.mongulu.cm pour plus d'infos" comme réponse.
         Voici quelques exemples de questions d'utilisateurs et leurs requêtes SQL correspondantes :
     """
     few_shot_prompt = FewShotPromptTemplate(

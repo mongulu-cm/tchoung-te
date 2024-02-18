@@ -190,3 +190,6 @@ format.*
 # Ignore DevSpace/chainlit cache and log folder
 .devspace/
 .chainlit/
+
+
+.vscode/*

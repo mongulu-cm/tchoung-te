@@ -1,30 +1,31 @@
-colorama==0.4.4
-findspark==2.0.1
-geocoder==1.38.1
-geopy==2.2.0
-#jupyter==1.0.0
-#jupyter-utils==1.2.6
-pandarallel==1.6.1
-pipdeptree==2.2.1
-requests-cache==0.9.4
-tqdm==4.64.0
-wheel==0.38.1
 abbreviations==0.2.5
-ftfy==6.1.1
-rich==12.4.4
-#jupyterlab==3.6.7
-cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerability
-ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
-setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
-lambdaprompt==0.4.2
-openai==0.27.8
-boto3==1.26.82
-diskcache==5.4.0
-numpy==1.24.3
-langchain==0.0.329
+boto3==1.34.39
+chainlit==0.7.501
+colorama==0.4.6
+cryptography==42.0.2
+dirtyjson==1.0.8
+diskcache==5.6.3
 faiss-cpu==1.7.4
-tiktoken==0.4.0
-chainlit==0.5.1
-tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability
-aiohttp>=3.9.0 # not directly required, pinned by Snyk to avoid a vulnerability
-sentry_sdk==1.39.1
+findspark==2.0.1
+fqdn==1.5.1
+fsspec==2024.2.0
+ftfy==6.1.3
+geocoder==1.38.1
+geopy==2.4.1
+isoduration==20.11.0
+jupyter==1.0.0
+jupyter-utils==1.2.6
+lambdaprompt==0.6.1
+langchain-experimental==0.0.50
+langchain-openai==0.0.5
+networkx==3.2.1
+nltk==3.8.1
+pandarallel==1.6.5
+pip-chill==1.0.3
+pipdeptree==2.13.2
+requests-cache==1.1.1
+rich==13.7.0
+sentry-sdk==1.40.3
+tabulate==0.9.0
+uri-template==1.3.0
+webcolors==1.13

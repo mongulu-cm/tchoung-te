@@ -8,10 +8,23 @@
             "name": "filter-cameroon",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/etl/filter-cameroon.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "cwd": "${workspaceFolder}/etl"
+        },
+        {
+            "name": "Launch ChainLit",
+            "type": "python",
+            "request": "launch",
+            "module": "chainlit",
+            "args": [
+                "run",
+                "${workspaceFolder}/etl/experiments/ui.py"
+            ],
+            "env": {},
+            "cwd": "${workspaceFolder}/etl",
+            "console": "integratedTerminal"
         }
     ]
 }

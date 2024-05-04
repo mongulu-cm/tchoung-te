@@ -7,7 +7,7 @@ geopy==2.2.0
 pandarallel==1.6.1
 pipdeptree==2.2.1
 requests-cache==0.9.4
-tqdm==4.64.0
+tqdm==4.66.3
 wheel==0.38.1
 abbreviations==0.2.5
 ftfy==6.1.1

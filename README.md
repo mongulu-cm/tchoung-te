@@ -22,9 +22,7 @@ If you are here, it means that you are interested in an in-house deployment of t
 
 ### Prerequisites
 
-* Have a minimum of competence on the AWS and Terraform cloud
 * Create a Sourcegraph account and get credentials to use [CodyAI](https://www.youtube.com/watch?v=_csyHcEcxDA)
-* Create a AWS Builder ID to use [Code whisperer](https://www.youtube.com/watch?v=rHNMfOK8pWI) *[Optional]*
 *  [Devspace](https://www.devspace.sh/) installed locally
 * Have admin access on a [Gogocarto](https://gogocarto.fr/projects)
 * Go through the [Gogocarto tutorials](https://peertube.openstreetmap.fr/c/gogo_tutos/videos)
@@ -38,7 +36,6 @@ If you are here, it means that you are interested in an in-house deployment of t
 Execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
   ```
     pipenv shell
-    aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
     secretsfoundry run --script 'python filter-cameroon.py'
   ```
 

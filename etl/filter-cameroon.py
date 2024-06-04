@@ -16,6 +16,9 @@ from lambdaprompt import GPT3Prompt
 from pandarallel import pandarallel
 from rich.console import Console
 
+# enrich_cache finally not used, it was store in aws but with clear params
+# geocode is used now => store in local => 1000 requ free per day
+
 # %%
 start = time.time()
 file_location = os.getcwd() + "/rna_waldec_20220301/"

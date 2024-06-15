@@ -55,7 +55,7 @@ You can for example define icons by category (social object); ours are in `html/
 
   ```
     cd etl/
-    secretsfoundry run -p --script "chainlit run experiments/ui.py"
+    secretsfoundry run --script "chainlit run experiments/ui.py"
   ```
 
 ### Deploy the chatbot

@@ -20,9 +20,9 @@ lambdaprompt==0.4.2
 openai==0.27.8
 boto3==1.26.82
 diskcache==5.4.0
-numpy==1.24.3
+numpy==1.26.4
 langchain==0.1.11
-faiss-cpu==1.7.4
+faiss-cpu==1.8.0
 tiktoken==0.4.0
 chainlit==0.5.1
 tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability

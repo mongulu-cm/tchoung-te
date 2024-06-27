@@ -64,6 +64,36 @@ You can for example define icons by category (social object); ours are in `html/
    devspace deploy
   ```
 
+## Evaluation
+
+
+### RAG base evaluation dataset
+
+The list of runs `runs.csv` has been built by getting all the runs from the beginning using:
+```
+export LANGCHAIN_API_KEY=<key>
+cd evals/
+python3 rag-evals.py save_runs --days 400
+```
+
+Then we use [lilac](https://docs.lilacml.com/) to get the most interesting questions by clustering them per topic/category. "Associations in France" was the one chosen, and we also deleted some rows due to irrelevance.
+
+> The clustering repartition is available here: [Clustering Repartition](https://github.com/mongulu-cm/tchoung-te/pull/127#issuecomment-2174444629)
+
+Finally, you just need to do:
+```
+export LANGCHAIN_API_KEY=<key>
+cd evals/
+python3 rag.py ragas_eval tchoung-te --run_ids_file=runs.csv
+python3 rag.py deepeval tchoung-te --run_ids_file=runs.csv
+```
+
+### RAG offline evaluation
+
+
+Whenever you change a parameter that can affect RAG, you can execute all inputs present in evals/base_ragas_evaluation.csv using langsmith to track them. Then you just have to get the runs and execute above command. As it's just 27 elements, you will be able to compare results manually. 
+
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

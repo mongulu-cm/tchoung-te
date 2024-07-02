@@ -93,6 +93,12 @@ python3 rag.py deepeval tchoung-te --run_ids_file=runs.csv
 
 Whenever you change a parameter that can affect RAG, you can execute all inputs present in evals/base_ragas_evaluation.csv using langsmith to track them. Then you just have to get the runs and execute above command. As it's just 27 elements, you will be able to compare results manually. 
 
+### Backtesting the prompt
+  ```
+   cd etl/
+   python3 backtesting_prompt.py
+  ```
+  Create the dataset on which you want to test the new prompt on langSmith. Then run the file above to backtest and see the results of the new prompt on the dataset. You would specify in the file the name of the dataset before running
 
 ## Contributors ✨
 

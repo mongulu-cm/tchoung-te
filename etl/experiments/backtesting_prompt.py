@@ -1,17 +1,23 @@
 import os
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
-from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders.csv_loader import CSVLoader
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
+from langchain_community.document_loaders import CSVLoader
+from langchain_openai import OpenAIEmbeddings
 from langchain.prompts.chat import (
     ChatPromptTemplate,
     HumanMessagePromptTemplate,
     SystemMessagePromptTemplate,
 )
 from langsmith.evaluation import evaluate, LangChainStringEvaluator
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 
+def prepare_data(run, example):
+    return {
+       "prediction": run.outputs['answer'],
+       "reference": example.outputs['answer'],
+       "input": example.inputs['question'],
+    }
 
 system_template = """Vous êtes un assistant IA qui fournit des informations sur les associations camerounaises en France. Vous recevez une question et fournissez une réponse claire et structurée. Lorsque cela est pertinent, utilisez des points et des listes pour structurer vos réponses.
 
@@ -62,7 +68,10 @@ experiment_prefix = "tchoung-te-backtesting_v2"
 
 # List of evaluators to score the outputs of target task
 evaluators = [
-  LangChainStringEvaluator("cot_qa")
+  LangChainStringEvaluator(
+    "context_qa",
+    prepare_data=prepare_data
+  )
 ]
 
 # Evaluate the target task
@@ -70,5 +79,5 @@ results = evaluate(
   chain.invoke,
   data=dataset,
   evaluators=evaluators,
-  experiment_prefix=experiment_prefix,
+  experiment_prefix=experiment_prefix
 )

@@ -178,8 +178,7 @@ node_modules/**
 package-lock.json
 package.json
 
-## To avoid commit of aws creds in gitpod env
-.aws/
+
 ## To avoid commit of .envrc in gitpod because this cause gitpod to execute .envrc instead of gitpod.yml
 .envrc
 etl/experiments/.chainlit/**

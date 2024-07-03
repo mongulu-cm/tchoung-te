@@ -8,7 +8,6 @@ tasks:
       pushd etl/
       pre-commit install
       pre-commit install --hook-type commit-msg
-      aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
       curl "https://media.interieur.gouv.fr/rna/rna_waldec_20220301.zip" -o rna_waldec_20220301.zip
       unzip rna_waldec_20220301.zip -d rna_waldec_20220301
       rm -f rna_waldec_20220301.zip
@@ -22,4 +21,3 @@ vscode:
     - vivaxy.vscode-conventional-commits
     - sourcegraph.cody-ai
     - donjayamanne.githistory
-    - amazonwebservices.aws-toolkit-vscode

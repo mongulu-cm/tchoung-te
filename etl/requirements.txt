@@ -5,7 +5,7 @@ geopy==2.2.0
 pandarallel==1.6.1
 pipdeptree==2.2.1
 requests-cache==0.9.4
-tqdm==4.64.0
+tqdm==4.66.3
 wheel==0.38.1
 abbreviations==0.2.5
 rich==12.4.4
@@ -25,3 +25,4 @@ chainlit==0.5.1
 tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability
 aiohttp>=3.9.0 # not directly required, pinned by Snyk to avoid a vulnerability
 sentry_sdk==1.39.1
+requests>=2.32.0 # not directly required, pinned by Snyk to avoid a vulnerability

@@ -22,9 +22,7 @@ If you are here, it means that you are interested in an in-house deployment of t
 
 ### Prerequisites
 
-* Have a minimum of competence on the AWS and Terraform cloud
 * Create a Sourcegraph account and get credentials to use [CodyAI](https://www.youtube.com/watch?v=_csyHcEcxDA)
-* Create a AWS Builder ID to use [Code whisperer](https://www.youtube.com/watch?v=rHNMfOK8pWI) *[Optional]*
 *  [Devspace](https://www.devspace.sh/) installed locally
 * Have admin access on a [Gogocarto](https://gogocarto.fr/projects)
 * Go through the [Gogocarto tutorials](https://peertube.openstreetmap.fr/c/gogo_tutos/videos)
@@ -38,7 +36,6 @@ If you are here, it means that you are interested in an in-house deployment of t
 Execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :
   ```
     pipenv shell
-    aws s3 cp s3://mongulu-files/enrich_cache.sqlite enrich_cache.sqlite
     secretsfoundry run --script 'python filter-cameroon.py'
   ```
 
@@ -58,7 +55,7 @@ You can for example define icons by category (social object); ours are in `html/
 
   ```
     cd etl/
-    secretsfoundry run -p --script "chainlit run experiments/ui.py"
+    secretsfoundry run --script "chainlit run experiments/ui.py"
   ```
 
 ### Deploy the chatbot
@@ -66,6 +63,42 @@ You can for example define icons by category (social object); ours are in `html/
   ```
    devspace deploy
   ```
+
+## Evaluation
+
+
+### RAG base evaluation dataset
+
+The list of runs `runs.csv` has been built by getting all the runs from the beginning using:
+```
+export LANGCHAIN_API_KEY=<key>
+cd evals/
+python3 rag-evals.py save_runs --days 400
+```
+
+Then we use [lilac](https://docs.lilacml.com/) to get the most interesting questions by clustering them per topic/category. "Associations in France" was the one chosen, and we also deleted some rows due to irrelevance.
+
+> The clustering repartition is available here: [Clustering Repartition](https://github.com/mongulu-cm/tchoung-te/pull/127#issuecomment-2174444629)
+
+Finally, you just need to do:
+```
+export LANGCHAIN_API_KEY=<key>
+cd evals/
+python3 rag.py ragas_eval tchoung-te --run_ids_file=runs.csv
+python3 rag.py deepeval tchoung-te --run_ids_file=runs.csv
+```
+
+### RAG offline evaluation
+
+
+Whenever you change a parameter that can affect RAG, you can execute all inputs present in evals/base_ragas_evaluation.csv using langsmith to track them. Then you just have to get the runs and execute above command. As it's just 27 elements, you will be able to compare results manually. 
+
+### Backtesting the prompt
+  ```
+   cd etl/
+   python3 backtesting_prompt.py
+  ```
+  Create the dataset on which you want to test the new prompt on langSmith. Then run the file above to backtest and see the results of the new prompt on the dataset. You would specify in the file the name of the dataset before running
 
 ## Contributors ✨
 

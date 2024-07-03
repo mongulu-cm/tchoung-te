@@ -8,7 +8,6 @@ requests-cache==0.9.4
 tqdm==4.66.3
 wheel==0.38.1
 abbreviations==0.2.5
-ftfy==6.1.1
 rich==12.4.4
 cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerability
 ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
@@ -17,9 +16,10 @@ lambdaprompt==0.4.2
 openai==0.27.8
 boto3==1.26.82
 diskcache==5.4.0
-numpy==1.24.3
-langchain==0.1.11
-faiss-cpu==1.7.4
+numpy==1.26.4
+langchain-community==0.2.6
+langchain-openai==0.1.14
+faiss-cpu==1.8.0
 tiktoken==0.4.0
 chainlit==0.5.1
 tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability

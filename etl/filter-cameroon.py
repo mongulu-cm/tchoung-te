@@ -71,7 +71,6 @@ openai.api_key = ssm.get_parameter(
 os.environ["OPENAI_API_KEY"] = openai.api_key
 
 
-
 start = time.time()
 
 
@@ -301,9 +300,6 @@ waldec_csv[17035] = "SANTÉ"
 waldec_csv[40580] = "ACTIVTÉS RELIGIEUSES, SPIRITUELLES OU PHILOSOPHIQUES"
 
 
-# %%
-
-
 def get_dept_region(code_postal):
     try:
         dept = dept_by_postal_codes[str(code_postal)]
@@ -415,8 +411,6 @@ df_cameroon_associations = df_cameroon_associations.pipe(add_lat_lon).pipe(
 )
 
 
-
-
 def remove_space_at_the_end(x: str):
     if x is not None:
         return x.strip()
@@ -447,7 +441,6 @@ def normalize_final(data: pd.DataFrame):
 
 
 df_cameroon_associations = df_cameroon_associations.pipe(normalize_final)
-
 
 
 df_cameroon_associations.to_csv("rna-real-mars-2022-new.csv")

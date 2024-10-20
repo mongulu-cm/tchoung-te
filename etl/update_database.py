@@ -1,6 +1,9 @@
 import os
 import requests
 from bs4 import BeautifulSoup
+from zipfile import ZipFile
+import sys
+import runpy
 
 DATA_GOUV_PATH = "https://www.data.gouv.fr/fr/datasets/repertoire-national-des-associations/"
 
@@ -19,6 +22,12 @@ def download_link(url: str, headers=None):
             with open(name, "wb") as file:
                 file.write(response.content)
             return name
+        
+def unzip_and_delete(path: str):
+    zipped = ZipFile(path)
+    zipped.extractall(path.replace(".zip", ""))
+    zipped.close()
+    return path.replace(".zip", "")
 
 def search_and_download_data():
     page = read_data_gouv_page()
@@ -27,15 +36,23 @@ def search_and_download_data():
     links: list[str] = [
         i["href"] for i in links if ("media.interieur.gouv" in i["href"])
     ]
-    rna_import = [i for i in links if "rna_import" in i]
+    # rna_import = [i for i in links if "rna_import" in i]
     rna_waldec = [i for i in links if "rna_waldec" in i]
 
-    rna_import = sorted(rna_import, reverse=True)[0]
+    # rna_import = sorted(rna_import, reverse=True)[0]
     rna_waldec = sorted(rna_waldec, reverse=True)[0]
 
-    rna_import = download_link(rna_import)
+    # rna_import = download_link(rna_import)
     rna_waldec = download_link(rna_waldec)
-    return rna_import, rna_waldec
+    return rna_waldec
 
 if __name__ == "__main__":
-    search_and_download_data()
+    print("Searching for lastest rna waldec version")
+    path = search_and_download_data()
+    folder = path.replace(".zip", "")
+    print("extracting rna data")
+    unzip_and_delete(path)
+    print("delete zip file")
+    os.remove(path)
+    folder = "rna_waldec_20241001"
+    os.system(f"secretsfoundry run --script 'python filter-cameroon.py --rna_folder {folder}'")

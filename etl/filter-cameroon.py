@@ -1,4 +1,4 @@
-# %%
+
 # CSV Files downloaded from https://www.data.gouv.fr/fr/datasets/repertoire-national-des-associations/  Fichier RNA Waldec du 01 Mars 2022
 import datetime as dt
 import glob
@@ -15,13 +15,15 @@ from geopy.geocoders import Nominatim
 from lambdaprompt import GPT3Prompt
 from pandarallel import pandarallel
 from rich.console import Console
+from argparse import Namespace, ArgumentParser
 
-# enrich_cache finally not used, it was store in aws but with clear params
-# geocode is used now => store in local => 1000 requ free per day
+parser = ArgumentParser()
+parser.add_argument("--rna_folder", default="rna_waldec_20220301/")
 
-# %%
+args, _ = parser.parse_known_args()
+
 start = time.time()
-file_location = os.getcwd() + "/rna_waldec_20220301/"
+file_location = os.path.join(os.getcwd(), args.rna_folder)
 all_files = glob.glob(os.path.join(file_location, "*.csv"))
 
 columns = [
@@ -45,9 +47,10 @@ df_associations = pd.concat(
             f,
             delimiter=";",
             header=0,
-            encoding="ISO-8859-1",
+            # encoding="ISO-8859-1",
             usecols=columns,
             engine="c",
+            low_memory=False
         )
         for f in all_files
     ],
@@ -57,7 +60,7 @@ df_associations = pd.concat(
 end = time.time()
 print(f"Time to read all CSV : {dt.timedelta(seconds=end - start)}")
 
-# %%
+
 ssm = boto3.client("ssm", region_name="eu-central-1")
 
 openai.api_key = ssm.get_parameter(
@@ -68,7 +71,7 @@ openai.api_key = ssm.get_parameter(
 os.environ["OPENAI_API_KEY"] = openai.api_key
 
 
-# %%
+
 start = time.time()
 
 
@@ -131,7 +134,7 @@ df_cameroon_associations = (
 end = time.time()
 print(f"Time to Filter Rows : {dt.timedelta(seconds=end - start)}")
 
-# %%
+
 text_prompt = """
 Normalize the addresses in french.
 Don't ignore any lines and treat each address separetely and go step by step
@@ -216,17 +219,6 @@ all_adresses = all_adresses.split("\n")
 all_adresses = [x.strip() for x in all_adresses]
 
 # Build adresse by concatenation
-df2["adrs"] = (
-    df2["adrs_numvoie"].map(str)
-    + " "
-    + df2["adrs_typevoie"].map(str)
-    + " "
-    + df2["adrs_libvoie"].map(str)
-    + " "
-    + df2["adrs_codepostal"].map(str)
-    + " "
-    + df2["adrs_libcommune"].map(str)
-)
 df_cameroon_associations["adrs"] = (
     df_cameroon_associations["adrs_numvoie"].map(str)
     + " "
@@ -251,7 +243,7 @@ df_not_in_cache = df_cameroon_associations[
 ]
 
 print(f"{len(df_not_in_cache)} adresses not present in cache...")
-# %%
+
 if len(df_not_in_cache) > 0:
     num_batches = int(np.ceil(len(df_not_in_cache) / 25))
     batches = np.array_split(df_not_in_cache, num_batches)
@@ -273,7 +265,7 @@ if len(df_not_in_cache) > 0:
             time.sleep(120)
         batch["adrs"] = cache[list_adresses]
 
-# %%
+
 # Downloaded from https://download.geonames.org/export/zip/
 region_by_postal_codes = pd.read_csv(
     "code-postal-geonames.tsv", delimiter="\t", index_col=1
@@ -366,7 +358,7 @@ df_cameroon_associations = df_cameroon_associations.pipe(add_dept_and_region).pi
 # get_info("W212001727")
 # get_dept_region(30913)
 
-# %%
+
 pandarallel.initialize(progress_bar=True)
 requests_cache.install_cache("geocode_cache")
 
@@ -422,7 +414,7 @@ df_cameroon_associations = df_cameroon_associations.pipe(add_lat_lon).pipe(
     format_libelle_for_gogocarto
 )
 
-# %%
+
 
 
 def remove_space_at_the_end(x: str):
@@ -457,7 +449,7 @@ def normalize_final(data: pd.DataFrame):
 df_cameroon_associations = df_cameroon_associations.pipe(normalize_final)
 
 
-# %%
+
 df_cameroon_associations.to_csv("rna-real-mars-2022-new.csv")
 
 

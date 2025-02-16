@@ -23,6 +23,9 @@ pipelines:
 images:
   app:
     image: mongulu/tchoung-te
+    buildKit:
+      args:
+        - "--platform=linux/arm64"
     dockerfile: ./Dockerfile
 
 # This is a list of `deployments` that DevSpace can create for this project

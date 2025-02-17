@@ -25,13 +25,13 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from sqlalchemy import  create_engine
 from langchain.tools.retriever import create_retriever_tool
 
-# sentry_sdk.init(
-#     dsn="https://a38e91a66c70912c38406fef32d86809@o4504301629407232.ingest.sentry.io/4506436450844672",
-#     # Set traces_sample_rate to 1.0 to capture 100% of transactions for performance monitoring.
-#     traces_sample_rate=1.0,
-#     # Set profiles_sample_rate to 1.0 to profile 100% of sampled transactions.We recommend adjusting this value in production.
-#     profiles_sample_rate=1.0,
-# )
+sentry_sdk.init(
+    dsn="https://a38e91a66c70912c38406fef32d86809@o4504301629407232.ingest.sentry.io/4506436450844672",
+    # Set traces_sample_rate to 1.0 to capture 100% of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100% of sampled transactions.We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
 
 CSV_FILE_PATH = "ref-rna-real-mars-2022-enriched-qualified.csv"
 

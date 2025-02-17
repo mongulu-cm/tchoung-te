@@ -13,15 +13,14 @@ cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerabili
 ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
 setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
 lambdaprompt==0.4.2
-openai==0.27.8
+openai==1.63.0
 boto3==1.26.82
 diskcache==5.4.0
 numpy==1.26.4
-langchain-community==0.2.9
-langchain-openai==0.1.14
+langchain-openai==0.3.6
+langchain-community==0.3.17
 faiss-cpu==1.8.0
-tiktoken==0.4.0
-chainlit==0.5.1
+chainlit==2.2.1
 tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability
 aiohttp>=3.9.0 # not directly required, pinned by Snyk to avoid a vulnerability
 sentry_sdk==2.8.0

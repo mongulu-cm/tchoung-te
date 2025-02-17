@@ -18,4 +18,4 @@ COPY . /app/
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-CMD cd etl && chainlit run experiments/ui.py
+CMD cd etl && chainlit run experiments/ui.py --host 0.0.0.0

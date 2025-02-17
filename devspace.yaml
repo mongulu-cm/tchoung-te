@@ -62,7 +62,6 @@ deployments:
         service:
           ports:
             - port: 8000
-          type: LoadBalancer
         ingress:
           tls: true
           tlsClusterIssuer: letsencrypt-prod

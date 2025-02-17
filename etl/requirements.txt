@@ -18,6 +18,7 @@ boto3==1.26.82
 diskcache==5.4.0
 numpy==1.26.4
 langchain-openai==0.3.6
+langchain-community==0.3.17
 faiss-cpu==1.8.0
 chainlit==2.2.1
 tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability

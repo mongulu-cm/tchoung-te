@@ -15,32 +15,36 @@ from geopy.geocoders import Nominatim
 from lambdaprompt import GPT3Prompt
 from pandarallel import pandarallel
 from rich.console import Console
+from IPython import embed
+
+# embed()
+
 
 # %%
 start = time.time()
-file_location = os.getcwd() + "/rna_waldec_20220301/"
+file_location = f"{os.getcwd()}/rna_waldec_20220301/"
 all_files = glob.glob(os.path.join(file_location, "*.csv"))
 
 columns = [
     "id",
     "titre",
     "objet",
-    "objet_social1",
-    "objet_social2",
+    # "objet_social1",
+    # "objet_social2",
     "adrs_numvoie",
     "position",
     "adrs_typevoie",
     "adrs_libvoie",
     "adrs_codepostal",
     "adrs_libcommune",
-    "siteweb",
+    "siteweb"
 ]
 
 df_associations = pd.concat(
     [
         pd.read_csv(
             f,
-            delimiter=";",
+            delimiter=",",
             header=0,
             encoding="ISO-8859-1",
             usecols=columns,
@@ -57,12 +61,14 @@ print(f"Time to read all CSV : {dt.timedelta(seconds=end - start)}")
 # %%
 ssm = boto3.client("ssm", region_name="eu-central-1")
 
-openai.api_key = ssm.get_parameter(
-    Name="/tchoung-te/openai_api_key", WithDecryption=False
-)["Parameter"]["Value"]
+# openai.api_key = ssm.get_parameter(
+#     Name="/tchoung-te/openai_api_key", WithDecryption=False
+# )["Parameter"]["Value"]
 
-# setter la variable d'environnement
-os.environ["OPENAI_API_KEY"] = openai.api_key
+# # setter la variable d'environnement
+# os.environ["OPENAI_API_KEY"] = openai.api_key
+
+openai.api_key=os.environ["OPENAI_API_KEY"]
 
 
 # %%
@@ -96,16 +102,16 @@ def normalize(df):
     df["titre"] = df["titre"].str.upper()
     df["objet"] = df["objet"].str.lower()
     df["adrs_codepostal"] = df["adrs_codepostal"].astype(int)
-    df["objet_social1"] = df["objet_social1"].astype(int)
-    df["objet_social2"] = df["objet_social2"].astype(int)
-    """
-    Normalize strings in the associations infos
-    """
-    df["titre"].str.upper()
-    df["objet"].str.lower()
-    df["adrs_codepostal"] = df["adrs_codepostal"].astype(int)
-    df["objet_social1"] = df["objet_social1"].astype(int)
-    df["objet_social2"] = df["objet_social2"].astype(int)
+    # df["objet_social1"] = df["objet_social1"].astype(int)
+    # df["objet_social2"] = df["objet_social2"].astype(int)
+    # """
+    # Normalize strings in the associations infos
+    # """
+    # df["titre"].str.upper()
+    # df["objet"].str.lower()
+    # df["adrs_codepostal"] = df["adrs_codepostal"].astype(int)
+    # df["objet_social1"] = df["objet_social1"].astype(int)
+    # df["objet_social2"] = df["objet_social2"].astype(int)   
     # this will avoid nan in adrs which concatenate multiple values
     df = df.fillna("")
 
@@ -129,7 +135,7 @@ def select_relevant_columns(df):
         ]
     ]
 
-
+embed()
 
 df_cameroon_associations = (
     df_associations.pipe(filter_cameroon).pipe(remove_closed).pipe(normalize)
@@ -223,29 +229,10 @@ all_adresses = all_adresses.split("\n")
 all_adresses = [x.strip() for x in all_adresses]
 
 # Build adresse by concatenation
-df2["adrs"] = (
-    df2["adrs_numvoie"].map(str)
-    + " "
-    + df2["adrs_typevoie"].map(str)
-    + " "
-    + df2["adrs_libvoie"].map(str)
-    + " "
-    + df2["adrs_codepostal"].map(str)
-    + " "
-    + df2["adrs_libcommune"].map(str)
+df_cameroon_associations["adrs"] = df_cameroon_associations.apply(
+    lambda row: f"{row['adrs_numvoie']} {row['adrs_typevoie']} {row['adrs_libvoie']} {row['adrs_codepostal']} {row['adrs_libcommune']}", 
+    axis=1
 )
-df_cameroon_associations["adrs"] = (
-    df_cameroon_associations["adrs_numvoie"].map(str)
-    + " "
-    + df_cameroon_associations["adrs_typevoie"].map(str)
-    + " "
-    + df_cameroon_associations["adrs_libvoie"].map(str)
-    + " "
-    + df_cameroon_associations["adrs_codepostal"].map(str)
-    + " "
-    + df_cameroon_associations["adrs_libcommune"].map(str)
-)
-
 
 df_cameroon_associations["adrs"] = df_cameroon_associations.adrs.apply(
     lambda x: x.strip()

@@ -15,7 +15,7 @@ from geopy.geocoders import Nominatim
 from lambdaprompt import GPT3Prompt
 from pandarallel import pandarallel
 from rich.console import Console
-from argparse import Namespace, ArgumentParser
+from argparse import ArgumentParser
 
 parser = ArgumentParser()
 parser.add_argument("--rna_folder", default="rna_waldec_20220301/")

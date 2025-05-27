@@ -47,16 +47,3 @@ def search_and_download_data():
     # rna_import = download_link(rna_import)
     rna_waldec = download_link(rna_waldec)
     return rna_waldec
-
-
-if __name__ == "__main__":
-    print("Searching for lastest rna waldec version")
-    path = search_and_download_data()
-    folder = path.replace(".zip", "")
-    print("extracting rna data")
-    unzip_and_delete(path)
-    print("delete zip file")
-    os.remove(path)
-    folder = "rna_waldec_20241001"
-    os.system(
-        f"secretsfoundry run --script 'python filter-cameroon.py --rna_folder {folder}'")

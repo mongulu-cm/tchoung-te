@@ -2,7 +2,10 @@ name: Monthly ETL Job
 
 on:
   schedule:
-    - cron: '0 0 1 * *'  # Runs at midnight on the first day of every month
+    - cron: '0 0 1 * *'
+
+permissions:
+  contents: read
 
 jobs:
   run_etl:
@@ -15,12 +18,33 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.8'  # Specify the Python version
+          python-version: '3.8'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r etl/requirements.txt
 
-      - name: Run update_database.py
-        run: python etl/update_database.py
+      - name: Download and unzip RNA WALDEC
+        run: |
+          echo "Searching for latest rna waldec version"
+          python -c "
+import etl.update_database as ud
+path = ud.search_and_download_data()
+print(f'Extracted file: {path}')
+folder = ud.unzip_and_delete(path)
+import os
+os.remove(path)
+print('Deleted zip file')
+with open('rna_folder.txt', 'w') as f:
+    f.write(folder)
+"
+
+      - name: Run filter-cameroon.py
+        run: |
+          folder=$(cat rna_folder.txt)
+          secretsfoundry run --script "python filter-cameroon.py --rna_folder $folder"
+
+      - name: Run enrich-database.py
+        run: |
+          secretsfoundry run --script "python enrich-database.py --rna_file rna-real-mars-2022-new.csv"

@@ -9,6 +9,7 @@ from abbreviations import schwartz_hearst
 from pandarallel import pandarallel
 from rich.traceback import install
 from tqdm import tqdm
+from argparse import ArgumentParser
 
 tqdm.pandas()
 pandarallel.initialize(progress_bar=True)
@@ -20,7 +21,11 @@ subscription_key = os.environ["BING_SUBSCRIPTION_KEY"]
 search_url = "https://api.bing.microsoft.com/v7.0/search"
 
 # %%
-df = pd.read_csv("ref-rna-real-mars-2022.csv")
+parser = ArgumentParser()
+parser.add_argument("--rna_file", default="ref-rna-real-mars-2022.csv")
+
+args, _ = parser.parse_known_args()
+df = pd.read_csv(args.rna_file)
 
 # %%
 # Plusieurs titres contiennent le nom de l'association et abbreviation entre parenthèses ou pas

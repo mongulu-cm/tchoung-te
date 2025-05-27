@@ -12,6 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838 # ratchet:aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     role-to-assume: arn:aws:iam::053932140667:role/mongulu-github
+      #     role-session-name: tchoungte-deployment
+      #     aws-region: eu-central-1
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -29,22 +37,25 @@ jobs:
         run: |
           echo "Searching for latest rna waldec version"
           python -c "
-import etl.update_database as ud
-path = ud.search_and_download_data()
-print(f'Extracted file: {path}')
-folder = ud.unzip_and_delete(path)
-import os
-os.remove(path)
-print('Deleted zip file')
-with open('rna_folder.txt', 'w') as f:
-    f.write(folder)
-"
+          import etl.update_database as ud
+          path = ud.search_and_download_data()
+          print(f'Extracted file: {path}')
+          folder = ud.unzip_and_delete(path)
+          import os
+          os.remove(path)
+          print('Deleted zip file')
+          with open('rna_folder.txt', 'w') as f:
+              f.write(folder)
+          "
 
       - name: Run filter-cameroon.py
         run: |
           folder=$(cat rna_folder.txt)
+          npm install -g secretsfoundry
+          cd etl/
           secretsfoundry run --script "python filter-cameroon.py --rna_folder $folder"
 
       - name: Run enrich-database.py
         run: |
+          cd etl/
           secretsfoundry run --script "python enrich-database.py --rna_file rna-real-mars-2022-new.csv"

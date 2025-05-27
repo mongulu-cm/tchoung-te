@@ -13,12 +13,12 @@ jobs:
 
     steps:
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838 # ratchet:aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     role-to-assume: arn:aws:iam::053932140667:role/mongulu-github
-      #     role-session-name: tchoungte-deployment
-      #     aws-region: eu-central-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838 # ratchet:aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::053932140667:role/mongulu-github
+          role-session-name: tchoungte-deployment
+          aws-region: eu-central-1
 
       - name: Checkout code
         uses: actions/checkout@v4

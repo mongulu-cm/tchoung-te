@@ -3,6 +3,7 @@
 import datetime as dt
 import glob
 import os
+from pathlib import Path
 import time
 
 import boto3
@@ -20,7 +21,7 @@ from argparse import ArgumentParser
 parser = ArgumentParser()
 parser.add_argument("--rna_folder", default="rna_waldec_20220301/")
 
-args, _ = parser.parse_known_args()
+args = parser.parse_args()
 
 start = time.time()
 file_location = os.path.join(os.getcwd(), args.rna_folder)
@@ -261,7 +262,7 @@ if len(df_not_in_cache) > 0:
                 if len(clean_adresses) != len(batch["adrs"])
                 else clean_adresses
             )
-            time.sleep(120)
+            # time.sleep(120)
         batch["adrs"] = cache[list_adresses]
 
 

@@ -100,6 +100,12 @@ Whenever you change a parameter that can affect RAG, you can execute all inputs 
   ```
   Create the dataset on which you want to test the new prompt on langSmith. Then run the file above to backtest and see the results of the new prompt on the dataset. You would specify in the file the name of the dataset before running
 
+
+
+## Diagrammes des scripts
+![Diagramme scripts](https://github.com/user-attachments/assets/38b926a3-a3cd-4f23-823f-1373a7409711)
+
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

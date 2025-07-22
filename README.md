@@ -31,6 +31,11 @@ If you are here, it means that you are interested in an in-house deployment of t
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mongulu-cm/tchoung-te)
 
 
+### Learn about this repo
+
+* Gitpodcast: https://www.gitpodcast.com/mongulu-cm/tchoung-te
+* Gitdiagram: https://gitdiagram.com/mongulu-cm/tchoung-te
+
 ### Deployment
   
 Execute  `filter-cameroon.ipynb` et `enrich-database.ipynb` notebooks :

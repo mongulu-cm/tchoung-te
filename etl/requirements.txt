@@ -6,7 +6,7 @@ pandarallel==1.6.1
 pipdeptree==2.2.1
 requests-cache==0.9.4
 tqdm==4.66.3
-wheel==0.38.1
+wheel==0.46.2
 abbreviations==0.2.5
 rich==12.4.4
 cryptography>=3.2 # not directly required, pinned by Snyk to avoid a vulnerability
